@@ -82,6 +82,14 @@
 			</exclusions>
 			<scope>runtime</scope>
 		</dependency>
+		
+		<!-- commons-logging 추가 : LoggerInterceptor 설정하기 위함-->
+		<!-- https://mvnrepository.com/artifact/commons-logging/commons-logging -->
+		<dependency>
+  		  	<groupId>commons-logging</groupId>
+   			<artifactId>commons-logging</artifactId>
+    		<version>1.2</version>
+		</dependency>
 
 		<!-- @Inject -->
 		<dependency>
