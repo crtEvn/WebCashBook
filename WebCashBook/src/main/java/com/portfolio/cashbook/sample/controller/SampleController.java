@@ -5,6 +5,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import javax.annotation.Resource;
+
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -14,6 +16,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.portfolio.cashbook.sample.service.SampleService;
+
 @Controller
 public class SampleController {
 	
@@ -21,6 +25,9 @@ public class SampleController {
 	
 	@Autowired
 	BasicDataSource dataSource;
+	
+	@Resource(name="sampleService")
+    private SampleService sampleService;
 	
 	// LoggerInterceptor가 동작하는지 확인하기 위함
 	@RequestMapping(value="/testInterceptor.do")
@@ -63,6 +70,14 @@ public class SampleController {
 			}
 		}
 		
+		return "sample/test";
+	}
+	
+	@RequestMapping(value="/testMyBatis.do")
+	public String testMyBatis(Model model) throws Exception {
+		
+		model.addAttribute("servertime", sampleService.getTime());
+		log.debug("servertime: "+sampleService.getTime());
 		return "sample/test";
 	}
 
