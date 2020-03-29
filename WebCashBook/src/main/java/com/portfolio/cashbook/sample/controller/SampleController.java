@@ -38,6 +38,7 @@ public class SampleController {
         return mv;
     }
 	
+	// MySQL DB 연결 확인
 	@RequestMapping(value="/testDB.do")
 	public String testDB(Model model) {
 		
@@ -73,6 +74,7 @@ public class SampleController {
 		return "sample/test";
 	}
 	
+	// MyBatis 연결 확인
 	@RequestMapping(value="/testMyBatis.do")
 	public String testMyBatis(Model model) throws Exception {
 		
