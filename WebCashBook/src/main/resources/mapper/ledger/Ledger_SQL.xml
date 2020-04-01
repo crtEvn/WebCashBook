@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+<mapper namespace="ledger">
+ 
+    <select id="ledger.selectLedgerList" resultType="hashmap">
+    	<![CDATA[
+        SELECT LEDGER_IDX, DATE, ACCOUNT, CATEGORY, SUB_CATEGORY, DESCRIPTION, AMOUNT, ASSET
+        FROM LEDGER
+        WHERE USER_IDX = 1
+        ORDER BY DATE DESC
+        ]]>
+    </select>
+    
+</mapper>
