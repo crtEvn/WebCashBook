@@ -19,13 +19,6 @@
          			<div class="col-sm-6">
             			<h1>일일</h1>
           			</div>
-          			<div class="col-sm-6">
-            			<!-- <ol class="breadcrumb float-sm-right">
-              			  <li class="breadcrumb-item"><a href="#">Home</a></li>
-              			  <li class="breadcrumb-item"><a href="#">Layout</a></li>
-              			  <li class="breadcrumb-item active">Fixed Layout</li>
-            			</ol> -->
-          			</div>
         		</div>
       		</div>
     	</section>
@@ -40,18 +33,7 @@
 						<!-- Card Header -->
 						<div class="card-header">
 							<h3 class="card-title">가계부</h3>
-							<div class="card-tools">
-								<!-- <div class="input-group input-group-sm" style="width: 150px;">
-									<input type="text" name="table_search"
-										class="form-control float-right" placeholder="Search">
-
-									<div class="input-group-append">
-										<button type="submit" class="btn btn-default">
-											<i class="fas fa-search"></i>
-										</button>
-									</div>
-								</div> -->
-							</div>
+							<%@include file="./ledger_insertForm.jsp" %>
 						</div>
 						<!-- /.card-header -->
 						<!-- Card Body -->

@@ -8,6 +8,7 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 import com.portfolio.cashbook.ledger.dao.LedgerDAO;
+import com.portfolio.cashbook.ledger.vo.LedgerVO;
 
 @Service("ledgerService")
 public class LedgerServiceImpl implements LedgerService{
@@ -18,6 +19,11 @@ public class LedgerServiceImpl implements LedgerService{
 	@Override
 	public List<Map<String, Object>> getLedgerList() throws Exception {
 		return ledgerDAO.getLedgerList();
+	}
+
+	@Override
+	public void insertLedger(LedgerVO vo) throws Exception {
+		ledgerDAO.insertLedger(vo);
 	}
 	
 	

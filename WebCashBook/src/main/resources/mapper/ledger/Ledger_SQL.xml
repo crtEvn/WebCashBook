@@ -12,4 +12,13 @@
         ]]>
     </select>
     
+    <insert id="ledger.insertLedger" parameterType="com.portfolio.cashbook.ledger.vo.LedgerVO">
+    	<![CDATA[
+    	INSERT INTO LEDGER
+    		(USER_IDX, DATE, ACCOUNT, CATEGORY, SUB_CATEGORY, DESCRIPTION, AMOUNT, ASSET)
+    	VALUES
+    		(#{user_idx}, #{date}, #{account}, #{category}, #{sub_category}, #{description}, #{amount}, #{asset})
+    	]]>
+    </insert>
+    
 </mapper>

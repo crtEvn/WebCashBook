@@ -28,6 +28,7 @@
 	<mvc:interceptors>
         <mvc:interceptor>
             <mvc:mapping path="/**"/>
+            <mvc:exclude-mapping path="/resources/**" />
             <beans:bean id="loggerInterceptor" class="com.portfolio.cashbook.common.logger.LoggerInterceptor" />
         </mvc:interceptor>
     </mvc:interceptors>

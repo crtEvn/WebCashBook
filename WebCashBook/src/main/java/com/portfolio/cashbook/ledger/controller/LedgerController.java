@@ -11,14 +11,16 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.portfolio.cashbook.HomeController;
 import com.portfolio.cashbook.ledger.service.LedgerService;
+import com.portfolio.cashbook.ledger.vo.LedgerVO;
 import com.portfolio.cashbook.sample.controller.SampleController;
 
 @Controller
 public class LedgerController {
 	
-	protected Log log = LogFactory.getLog(SampleController.class);
-	
+	Log log = LogFactory.getLog(this.getClass());
+
 	@Resource(name="ledgerService")
 	private LedgerService ledgerService;
 	
@@ -30,6 +32,15 @@ public class LedgerController {
 		model.addAttribute("ledgerList",ledgerList);
 		
 		return "ledger/ledger_main";
+	}
+	
+	// [INSERT] : 가계부 내역 입력 기능
+	@RequestMapping(value="/ledger/insertLedger.do")
+	public String insert_ledger(Model model, LedgerVO vo) throws Exception {
+
+		ledgerService.insertLedger(vo);
+		
+		return "redirect:/ledger/main.do";
 	}
 	
 	
