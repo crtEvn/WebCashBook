@@ -10,6 +10,7 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.portfolio.cashbook.HomeController;
 import com.portfolio.cashbook.ledger.service.LedgerService;
@@ -39,6 +40,15 @@ public class LedgerController {
 	public String insert_ledger(Model model, LedgerVO vo) throws Exception {
 
 		ledgerService.insertLedger(vo);
+		
+		return "redirect:/ledger/main.do";
+	}
+	
+	// [DELETE] : 가계부 내역 삭제 기능
+	@RequestMapping(value="/ledger/deleteLedger.do")
+	public String delete_ledger(Model model, @RequestParam String ledger_idx) throws Exception {
+		
+		ledgerService.deleteLedger(ledger_idx);
 		
 		return "redirect:/ledger/main.do";
 	}

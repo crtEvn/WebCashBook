@@ -11,4 +11,6 @@ public interface LedgerService {
 	
 	void insertLedger(LedgerVO vo) throws Exception;
 	
+	void deleteLedger(String ledger_idx) throws Exception;
+	
 }

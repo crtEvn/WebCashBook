@@ -25,6 +25,11 @@ public class LedgerServiceImpl implements LedgerService{
 	public void insertLedger(LedgerVO vo) throws Exception {
 		ledgerDAO.insertLedger(vo);
 	}
+
+	@Override
+	public void deleteLedger(String ledger_idx) throws Exception {
+		ledgerDAO.deleteLedger(ledger_idx);
+	}
 	
 	
 

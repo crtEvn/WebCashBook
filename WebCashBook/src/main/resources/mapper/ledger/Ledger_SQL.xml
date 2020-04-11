@@ -21,4 +21,11 @@
     	]]>
     </insert>
     
+    <delete id="ledger.deleteLedger" parameterType="String">
+    	<![CDATA[
+    	DELETE FROM LEDGER
+    	WHERE LEDGER_IDX = ${value}
+    	]]>
+    </delete>
+    
 </mapper>

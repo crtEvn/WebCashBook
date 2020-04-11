@@ -1,10 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-</head>
-<body>
+
 <!-- jQuery -->
 <script src="<c:url value="/resources/adminLTE/plugins/jquery/jquery.min.js" />"></script>
 <!-- Bootstrap 4 -->
@@ -15,4 +10,3 @@
 <script src="<c:url value="/resources/adminLTE/dist/js/adminlte.min.js" />"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="<c:url value="/resources/adminLTE/dist/js/demo.js" />"></script>
-</body>

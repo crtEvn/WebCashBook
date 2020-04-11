@@ -19,5 +19,9 @@ public class LedgerDAO extends AbstractDAO{
 	public void insertLedger(LedgerVO vo) {
 		insert("ledger.insertLedger", vo);
 	}
+	
+	public void deleteLedger(String ledger_idx) {
+		delete("ledger.deleteLedger", ledger_idx);
+	}
 
 }
