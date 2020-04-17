@@ -53,6 +53,15 @@ public class LedgerController {
 		return "redirect:/ledger/main.do";
 	}
 	
+	// [UPDATE] : 가계부 내역 수정 기능
+	@RequestMapping(value="/ledger/updateLedger.do")
+	public String update_ledger(Model model, LedgerVO vo) throws Exception {
+		
+		System.out.println(vo.getAmount()+","+vo.getLedger_idx());
+		ledgerService.updateLedger(vo);
+		
+		return "redirect:/ledger/main.do";
+	}
 	
 
 }

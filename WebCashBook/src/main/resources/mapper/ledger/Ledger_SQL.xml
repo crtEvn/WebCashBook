@@ -28,4 +28,18 @@
     	]]>
     </delete>
     
+    <update id="ledger.updateLedger" parameterType="com.portfolio.cashbook.ledger.vo.LedgerVO">
+    	<![CDATA[
+    	UPDATE LEDGER
+    	SET DATE = #{date},
+    		ACCOUNT = #{account},
+    		CATEGORY = #{category},
+    		SUB_CATEGORY = #{sub_category},
+    		DESCRIPTION = #{description},
+    		AMOUNT = #{amount},
+    		ASSET = #{asset}
+    	WHERE LEDGER_IDX = #{ledger_idx}
+    	]]>
+    </update>
+    
 </mapper>

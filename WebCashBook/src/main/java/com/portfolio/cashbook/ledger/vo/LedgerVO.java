@@ -4,6 +4,7 @@ import java.sql.Timestamp;
 
 public class LedgerVO {
 	
+	private String ledger_idx;
 	private String user_idx;
 	private String date;
 	private String account;
@@ -13,6 +14,12 @@ public class LedgerVO {
 	private String amount;
 	private String asset;
 	
+	public String getLedger_idx() {
+		return ledger_idx;
+	}
+	public void setLedger_idx(String ledger_idx) {
+		this.ledger_idx = ledger_idx;
+	}
 	public String getUser_idx() {
 		return user_idx;
 	}
