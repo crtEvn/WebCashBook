@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+<mapper namespace="user">
+ 
+    <select id="user.selectUser" parameterType="com.portfolio.cashbook.user.dto.SignDTO" resultType="com.portfolio.cashbook.user.vo.UserVO">
+    	<![CDATA[
+        SELECT *
+        FROM USERS
+        WHERE USER_ID = #{user_id}
+        ]]>
+    </select>
+    
+    <select id="user.checkUser_id" parameterType="String" resultType="int">
+    	<![CDATA[
+        SELECT COUNT(*)
+        FROM USERS
+        WHERE USER_ID = #{user_id}
+        ]]>
+    </select>
+    
+    <insert id="user.insertUser" parameterType="com.portfolio.cashbook.user.dto.SignDTO">
+    	<![CDATA[
+    	INSERT INTO USERS
+    		(USER_ID, USER_PW, USER_EMAIL, USER_STATE)
+    	VALUES
+    		(#{user_id}, #{user_pw}, #{user_email}, 'Y')
+    	]]>
+    </insert>
+    
+</mapper>

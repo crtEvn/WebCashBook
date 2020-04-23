@@ -10,3 +10,7 @@
 <script src="<c:url value="/resources/adminLTE/dist/js/adminlte.min.js" />"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="<c:url value="/resources/adminLTE/dist/js/demo.js" />"></script>
+<!-- SweetAlert2 -->
+<script src="<c:url value="/resources/adminLTE/plugins/sweetalert2/sweetalert2.min.js" />"></script>
+<!-- Toastr -->
+<script src="<c:url value="/resources/adminLTE/plugins/toastr/toastr.min.js" />"></script>
