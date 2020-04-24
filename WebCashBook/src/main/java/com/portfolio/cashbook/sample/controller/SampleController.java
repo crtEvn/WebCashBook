@@ -10,6 +10,7 @@ import javax.annotation.Resource;
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,6 +18,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.portfolio.cashbook.sample.service.SampleService;
+import com.portfolio.cashbook.user.dto.SignDTO;
+import com.portfolio.cashbook.user.service.UserService;
 
 @Controller
 public class SampleController {
@@ -28,6 +31,9 @@ public class SampleController {
 	
 	@Resource(name="sampleService")
     private SampleService sampleService;
+	
+	@Resource(name="userService")
+    private UserService userService;
 	
 	// LoggerInterceptor가 동작하는지 확인하기 위함
 	@RequestMapping(value="/testInterceptor.do")
@@ -80,6 +86,24 @@ public class SampleController {
 		
 		model.addAttribute("servertime", sampleService.getTime());
 		log.debug("servertime: "+sampleService.getTime());
+		return "sample/test";
+	}
+	
+	// 회원가입 테스트
+	@RequestMapping(value="/insertUser.do")
+	public String insertUser(SignDTO signDTO) throws Exception {
+		
+		signDTO.setUser_id("user01");
+		signDTO.setUser_pw("123!");
+		signDTO.setUser_email("jjsshhaw@naver.com");
+		
+		// user_pw 암호화 
+		String hashedPW = BCrypt.hashpw(signDTO.getUser_pw(),BCrypt.gensalt());
+		signDTO.setUser_pw(hashedPW);
+		
+		userService.insertUser(signDTO);
+		log.debug("admin 회원가입");
+		
 		return "sample/test";
 	}
 

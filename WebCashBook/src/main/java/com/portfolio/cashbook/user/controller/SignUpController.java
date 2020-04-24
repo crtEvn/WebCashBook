@@ -43,8 +43,7 @@ public class SignUpController {
 		
 		// 회원가입 Errors 처리
 		if(errors.hasErrors()) {
-			// 회원가입 실패 시 -  입력한 데이터 유지
-			model.addAttribute("SignDTO", signDTO);
+			// 회원가입 실패 시
 			log.debug("validator 오류");
 			
 			// 유효성 통과 못한 필드와 메시지를 핸들링
@@ -60,7 +59,6 @@ public class SignUpController {
 		int count = userService.checkUser_id(signDTO.getUser_id());
 		if(0 < count) { // user_id 중복인 경우 
 			log.debug("ID 중복 오류 user_id: "+signDTO.getUser_id());
-			model.addAttribute("SignDTO", signDTO);
 			model.addAttribute("valid_user_id", "중복된 아이디 입니다. 다시 입력해 주세요.");
 			return "user/sign_up";
 		}
