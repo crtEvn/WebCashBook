@@ -14,6 +14,7 @@
 		<p><a href="<c:url value='/ledger/main.do'/>">ledger/main.do</p>
 		<p><a href="<c:url value='/user/signin.do'/>">user/signin.do</p>
 		<p><a href="<c:url value='/user/signup.do'/>">user/signup.do</p>
+		<p><a href="<c:url value='/user/signout.do'/>">user/signout.do</p>
 	</div>
 
 </body>

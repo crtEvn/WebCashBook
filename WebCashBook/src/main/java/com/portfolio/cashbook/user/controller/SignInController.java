@@ -24,7 +24,7 @@ public class SignInController {
 	@Resource(name="userService")
 	private UserService userService;
 	
-	// 로그인 페이지
+	// Sign In 페이지
 	@GetMapping(value="/user/signin.do")
 	public String signIn_view(Model model) throws Exception {
 		
@@ -33,7 +33,7 @@ public class SignInController {
 		return "user/sign_in";
 	}
 		
-	// 로그인 기능
+	// Sign In 기능
 	@PostMapping(value="/user/signin.do")
 	public String signIn(Model model, SignDTO signDTO, HttpSession session) throws Exception {
 		
@@ -60,4 +60,14 @@ public class SignInController {
 		
 		return "user/sign_in";
 	}
+	
+	// Sign Out
+	@RequestMapping(value="/user/signout.do")
+	public String signOut(Model model, HttpSession session) throws Exception{
+		
+		session.removeAttribute("userSession");
+		
+		return "user/sign_in";
+	}
+	
 }

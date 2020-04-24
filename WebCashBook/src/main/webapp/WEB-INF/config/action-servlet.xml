@@ -24,12 +24,21 @@
 	
 	<context:component-scan base-package="com.portfolio.cashbook" />
 	
-	<!-- Interceptor 등록 -->
+	<!-- LoggerInterceptor -->
 	<mvc:interceptors>
         <mvc:interceptor>
             <mvc:mapping path="/**"/>
             <mvc:exclude-mapping path="/resources/**" />
             <beans:bean id="loggerInterceptor" class="com.portfolio.cashbook.common.logger.LoggerInterceptor" />
+        </mvc:interceptor>
+    </mvc:interceptors>
+    
+    <!-- AuthInterceptor -->
+    <mvc:interceptors>
+        <mvc:interceptor>
+            <mvc:mapping path="/**"/>
+            <mvc:exclude-mapping path="/resources/**" />
+            <beans:bean id="authInterceptor" class="com.portfolio.cashbook.common.auth.AuthInterceptor" />
         </mvc:interceptor>
     </mvc:interceptors>
 
