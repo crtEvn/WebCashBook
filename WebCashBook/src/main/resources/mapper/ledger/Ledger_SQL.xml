@@ -42,4 +42,31 @@
     	]]>
     </update>
     
+    <select id="ledger.selectDateGroup" parameterType="com.portfolio.cashbook.ledger.dto.LedgerDTO" resultType="hashmap">
+    	<![CDATA[
+    	SELECT DATE, COUNT(*) 'CNT', SUM(CASE WHEN ACCOUNT='수입' THEN AMOUNT ELSE 0 END) 'INCOME', SUM(CASE WHEN ACCOUNT='지출' THEN AMOUNT ELSE 0 END) 'EXPENDITURE'
+    	FROM LEDGER
+    	WHERE USER_IDX = #{user_idx}
+    	GROUP BY DATE
+    	HAVING DATE BETWEEN #{start_date} AND #{end_date}
+    	ORDER BY DATE DESC
+    	]]>
+    </select>
+    
+    <select id="ledger.selectLedgerByDate" parameterType="com.portfolio.cashbook.ledger.dto.LedgerDTO" resultType="hashmap">
+    	<![CDATA[
+    	SELECT LEDGER_IDX, DATE, ACCOUNT, CATEGORY, SUB_CATEGORY, DESCRIPTION, AMOUNT, ASSET
+    	FROM LEDGER
+    	WHERE USER_IDX = #{user_idx} AND DATE = #{date}
+    	]]>
+    </select>
+    
+    <select id="ledger.selectLedgerTotal" parameterType="com.portfolio.cashbook.ledger.dto.LedgerDTO" resultType="hashmap">
+    	<![CDATA[
+    	SELECT SUM(CASE WHEN ACCOUNT='수입' THEN AMOUNT ELSE 0 END) 'INCOME', SUM(CASE WHEN ACCOUNT='지출' THEN AMOUNT ELSE 0 END) 'EXPENDITURE', SUM(CASE WHEN ACCOUNT='수입' THEN AMOUNT ELSE -AMOUNT END) 'TOTAL'
+    	FROM LEDGER
+    	WHERE USER_IDX = #{user_idx} AND DATE BETWEEN #{start_date} AND #{end_date}
+    	]]>
+    </select>
+    
 </mapper>

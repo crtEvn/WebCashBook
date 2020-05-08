@@ -18,3 +18,5 @@
   <link rel="stylesheet" href="<c:url value="/resources/adminLTE/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css"/>">
   <!-- Toastr -->
   <link rel="stylesheet" href="<c:url value="/resources/adminLTE/plugins/toastr/toastr.min.css"/>">
+  <!-- daterange picker -->
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />

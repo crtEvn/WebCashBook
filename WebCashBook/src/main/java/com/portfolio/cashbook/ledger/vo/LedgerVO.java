@@ -69,7 +69,4 @@ public class LedgerVO {
 		this.asset = asset;
 	}
 	
-
-	
-	
 }

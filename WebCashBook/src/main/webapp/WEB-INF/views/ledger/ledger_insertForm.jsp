@@ -10,7 +10,6 @@
 </script>
 
 <form name="ledgerInput" id="ledgerInput" method="post">
-<input type="hidden" name="user_idx" value="1">
 <div>
 	<table>
 		<tr>

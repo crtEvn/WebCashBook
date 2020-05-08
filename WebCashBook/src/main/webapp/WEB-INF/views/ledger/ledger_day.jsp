@@ -1,8 +1,20 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+	pageEncoding="UTF-8"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 
-<script>
+<script type="text/javascript">
+
+window.onload = function() {
+	//Date range picker
+	$('#reservation').daterangepicker({
+		locale:{
+			format: 'YYYY-MM-DD'
+		}
+	}, function(start,end,label){
+		alert(start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD') + ' (predefined range: ' + label + ')');
+	});
+};
+	   
 // [Modal]: 가계부 내역 수정 Modal 열기
 function fn_updateModal(ledger_idx){
 	// Modal 열기
@@ -10,7 +22,7 @@ function fn_updateModal(ledger_idx){
 	
 	// ledger_idx에 해당하는 정보 가져오기
 	var tuple = $("#ledgerTuple"+ledger_idx);
-	var date = tuple.find("#date").text().substring(0,10);
+	var date = tuple.find("#date").val();
 	var account = tuple.find("#account").text();
 	var category = tuple.find("#category").text();
 	var sub_category = tuple.find("#sub_category").text();
@@ -65,96 +77,177 @@ function fn_deleteLedger(ledger_idx){
 }
 </script>
 
+<!-- Content Wrapper -->
+<div class="content-wrapper">
 
-	<!-- Content Wrapper -->
-	<div class="content-wrapper">
-	
-		<!-- Content Header -->
-    	<section class="content-header">
-      		<div class="container-fluid">
-        		<div class="row mb-2">
-         			<div class="col-sm-6">
-            			<h1>일일</h1>
-          			</div>
-        		</div>
-      		</div>
-    	</section>
-    	<!-- /.content header -->
-
-		<!-- Main content -->
-		<section class="content">
-			<div class="row">
-				<div class="col-12">
-					<!-- Card -->
-					<div class="card">
-						<!-- Card Header -->
-						<div class="card-header">
-							<h3 class="card-title">가계부</h3>
-							<!-- Insert Form -->
-							<%@include file="./ledger_insertForm.jsp" %>
-							<!-- /.insert-form -->
-						</div>
-						<!-- /.card-header -->
-						<!-- Card Body -->
-						<div class="card-body table-responsive p-0">
-							<table class="table table-hover text-nowrap">
-								<thead>
-									<tr>
-										<th>날짜</th>
-										<th>입출</th>
-										<th>분류</th>
-										<th>분류</th>
-										<th>내용</th>
-										<th>금액</th>
-										<th>자산</th>
-										<th>수정/삭제</th>
-									</tr>
-								</thead>
-								<tbody>
-									<c:choose>
-										<c:when test="${fn:length(ledgerList) > 0}">
-											<c:forEach var="row" items="${ledgerList }">
-												<tr id="ledgerTuple${row.LEDGER_IDX}">
-													<th id="date">${row.DATE }</th>
-													<th id="account">${row.ACCOUNT }</th>
-													<th id="category">${row.CATEGORY }</th>
-													<th id="sub_category">${row.SUB_CATEGORY }</th>
-													<th id="description">${row.DESCRIPTION }</th>
-													<th id="amount">${row.AMOUNT }</th>
-													<th id="asset">${row.ASSET }</th>
-													<th>
-														<button class="btn btn-primary btn-sm" title="수정" onclick="fn_updateModal(${row.LEDGER_IDX})">
-															<i class="fas fa-pencil-alt"></i>
-														</button>
-														<button class="btn btn-danger btn-sm" title="삭제" onclick="fn_deleteLedger(${row.LEDGER_IDX})">
-															<i class="fas fa-trash-alt"></i>
-														</button>
-													</th>
-												</tr>
-											</c:forEach>
-										</c:when>
-										<c:otherwise>
-											<tr>
-												<td colspan="8">가계부 내역이 없습니다.</td>
-											</tr>
-										</c:otherwise>
-									</c:choose>
-								</tbody>
-							</table>
-						</div>
-						<!-- /.card-body -->
-					</div>
-					<!-- /.card -->
+	<!-- Content Header -->
+	<section class="content-header">
+		<div class="container-fluid">
+			<div class="row mb-2">
+				<div class="col-sm-6">
+					<h1>일일</h1>
 				</div>
 			</div>
-			<!-- /.row -->
+		</div>
+	</section>
+	<!-- /.content header -->
 
-		</section>
-		<!-- /.main content -->
+	<!-- Main content -->
+	<section class="content">
 
-	</div>
-	<!-- /.content wrapper -->
-	
+		<!-- Row -->
+		<div class="row">
+			<div class="col-12">
+				<!-- Card -->
+				<div class="card">
+					<!-- Card-body -->
+					<div class="card-body">
+
+						<div class="row">
+							<div class="btn-group col-md-5" style="margin: 0 auto">
+								<button type="button" class="btn btn-default">1개월</button>
+								<button type="button" class="btn btn-default">3개월</button>
+								<button type="button" class="btn btn-default">6개월</button>
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="form-group col-md-5" style="margin: 0 auto">
+								<div class="input-group">
+									<div class="input-group-prepend">
+										<span class="input-group-text"> <i
+											class="far fa-calendar-alt"></i>
+										</span>
+									</div>
+									<input type="text" class="form-control float-right text-center"
+										id="reservation">
+								</div>
+								<!-- /.input group -->
+							</div>
+						</div>
+
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- /.row -->
+
+		<div class="row">
+		
+			<div class="col-lg-4">
+				<div class="input-group form-group-lg">
+					<div class="input-group-prepend">
+						<button type="button" class="btn btn-success">수입</button>
+					</div>
+					<input type="text" class="form-control" value="${ledgerTotal.INCOME }">
+				</div>
+			</div>
+
+			<div class="col-lg-4">
+				<div class="input-group form-group-lg">
+					<div class="input-group-prepend">
+						<button type="button" class="btn btn-danger">지출</button>
+					</div>
+					<input type="text" class="form-control" value="${ledgerTotal.EXPENDITURE }">
+				</div>
+			</div>
+
+			<div class="col-lg-4">
+				<div class="input-group form-group-lg">
+					<div class="input-group-prepend">
+						<button type="button" class="btn btn-primary">합계</button>
+					</div>
+					<input type="text" class="form-control" value="${ledgerTotal.TOTAL }">
+				</div>
+			</div>
+
+		</div>
+
+
+		<!-- Row -->
+		<div class="row">
+			<div class="col-12">
+
+				<!-- Card -->
+				<div class="card">
+					<!-- Card-body -->
+					<div class="card-body p-0">
+						<c:choose>
+							<c:when test="${fn:length(dateGroup) > 0}">
+								<c:forEach var="row_dg" items="${dateGroup }" varStatus="status">
+									<table class="table">
+										<thead>
+											<tr class="border-top text-bold text-lg">
+												<th style="width: 50%">${row_dg.DATE}</th>
+												<th style="width: 25%; text-align: right;">수입:
+													${row_dg.INCOME}</th>
+												<th style="width: 25%; text-align: right;">지출:
+													${row_dg.EXPENDITURE}</th>
+											</tr>
+										</thead>
+									</table>
+									<table class="table table-valign-middle">
+										<tbody>
+											<c:forEach var="row_ll" items="${ledgerList[status.index] }">
+												<tr id="ledgerTuple${row_ll.LEDGER_IDX}"
+													class="border-bottom">
+													<input type="hidden" id="date" value="${row_ll.DATE }">
+													<%-- <input type="hidden" id="ledger_idx" value="${row_ll.LEDGER_IDX }"> --%>
+													<td style="width: 10%;">
+														<div id="account">${row_ll.ACCOUNT }</div>
+													</td>
+													<td style="width: 20%;">
+														<div id="category">${row_ll.CATEGORY}</div>
+														<div id="sub_category">${row_ll.SUB_CATEGORY}</div>
+													</td>
+													<td style="width: 35%;">
+														<div id="description">${row_ll.DESCRIPTION}</div>
+													</td>
+													<td style="width: 20%;">
+														<div id="asset">${row_ll.ASSET}</div>
+														<div id="amount">${row_ll.AMOUNT}</div>
+													</td>
+													<td style="width: 10%;">
+														<button class="btn btn-primary btn-sm" title="수정"
+															onclick="fn_updateModal(${row_ll.LEDGER_IDX})">
+															<i class="fas fa-pencil-alt"></i>
+														</button>
+														<button class="btn btn-danger btn-sm" title="삭제"
+															onclick="fn_deleteLedger(${row_ll.LEDGER_IDX})">
+															<i class="fas fa-trash-alt"></i>
+														</button>
+													</td>
+												</tr>
+											</c:forEach>
+										</tbody>
+									</table>
+								</c:forEach>
+							</c:when>
+							<c:otherwise>
+								<table class="table">
+									<thead>
+										<tr>
+											<th>데이터가 없습니다.</th>
+										</tr>
+									</thead>
+								</table>
+							</c:otherwise>
+						</c:choose>
+					</div>
+					<!-- /.card-body -->
+				</div>
+				<!-- /.card -->
+
+			</div>
+		</div>
+		<!-- /.row -->
+
+	</section>
+	<!-- /.main content -->
+
+</div>
+<!-- /.content wrapper -->
+
 <!-- Modal -->
 <div class="modal fade" id="modal-lg">
 	<!-- Modal-dialog -->
@@ -169,12 +262,14 @@ function fn_deleteLedger(ledger_idx){
 			</div>
 			<div class="modal-body">
 				<!-- Update Form -->
-				<%@include file="./ledger_updateForm.jsp" %>
+				<%@include file="./ledger_updateForm.jsp"%>
 				<!-- /.update-form -->
 			</div>
 			<div class="modal-footer justify-content-between">
-				<button type="button" class="btn btn-default" onclick="fn_closeModal()">닫기</button>
-				<button type="button" class="btn btn-primary" onclick="fn_updateLedger()">수정하기</button>
+				<button type="button" class="btn btn-default"
+					onclick="fn_closeModal()">닫기</button>
+				<button type="button" class="btn btn-primary"
+					onclick="fn_updateLedger()">수정하기</button>
 			</div>
 		</div>
 		<!-- /.modal-content -->

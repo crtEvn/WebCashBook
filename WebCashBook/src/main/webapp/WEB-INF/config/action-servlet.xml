@@ -34,13 +34,13 @@
     </mvc:interceptors>
     
     <!-- AuthInterceptor -->
-    <mvc:interceptors>
+    <!-- <mvc:interceptors>
         <mvc:interceptor>
             <mvc:mapping path="/**"/>
             <mvc:exclude-mapping path="/resources/**" />
             <beans:bean id="authInterceptor" class="com.portfolio.cashbook.common.auth.AuthInterceptor" />
         </mvc:interceptor>
-    </mvc:interceptors>
+    </mvc:interceptors> -->
 
 
 </beans:beans>

@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpSession;
 
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.apache.commons.logging.Log;
@@ -20,6 +21,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.portfolio.cashbook.sample.service.SampleService;
 import com.portfolio.cashbook.user.dto.SignDTO;
 import com.portfolio.cashbook.user.service.UserService;
+import com.portfolio.cashbook.user.vo.UserVO;
 
 @Controller
 public class SampleController {
@@ -105,6 +107,19 @@ public class SampleController {
 		log.debug("admin 회원가입");
 		
 		return "sample/test";
+	}
+	
+	// 자동 로그인
+	@RequestMapping(value="/autoSignIn.do")
+	public String autoSignIn(SignDTO signDTO, HttpSession session) throws Exception {
+		
+		signDTO.setUser_id("admin");
+		
+		UserVO userVO = userService.selectUser(signDTO);
+		
+		session.setAttribute("userSession", userVO);
+		
+		return "redirect:/ledger/main.do";
 	}
 
 }

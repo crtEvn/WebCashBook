@@ -19,12 +19,6 @@ public class AuthInterceptor extends HandlerInterceptorAdapter{
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
 		
-		// /user/signin.do -> session 있으면 -> /ledger/main.do
-		//                 -> session 없으면 -> /user/signin.do
-		
-		// other pages -> session 있으면 -> other pages
-		//             -> session 없으면 -> /user/signin.do
-		
 		HttpSession session = request.getSession(false);
 		Object userSession = session.getAttribute("userSession");
 		
