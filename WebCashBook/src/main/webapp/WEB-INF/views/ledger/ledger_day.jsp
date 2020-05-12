@@ -27,12 +27,17 @@
 				<div class="card">
 					<!-- Card-body -->
 					<div class="card-body">
-					
 						<form name="selectPeriodForm" id="selectPeriodForm">
 							<input type="hidden" name="start_date" id="start_date">
 							<input type="hidden" name="end_date" id="end_date">
 						</form>
 						
+						<div class="row">
+							<div class="btn-group col-md-5" style="margin: 0 auto">
+								<button type="button" class="btn btn-default" onclick="fn_openInsertModal()">가계부 입력</button>
+							</div>
+						</div>
+
 						<div class="row">
 							<div class="btn-group col-md-5" style="margin: 0 auto">
 								<button type="button" id="btnOneMnth" class="btn btn-default">1개월</button>
@@ -50,7 +55,7 @@
 										</span>
 									</div>
 									<input type="text" class="form-control float-right text-center"
-										id="reservation">
+										id="selectPeriod">
 								</div>
 							</div>
 						</div>
@@ -61,44 +66,48 @@
 		</div>
 		<!-- /.row -->
 
-		<div class="row">
-		
-			<div class="col-lg-4">
-				<div class="input-group form-group-lg">
-					<div class="input-group-prepend">
-						<button type="button" class="btn btn-success">수입</button>
-					</div>
-					<input type="text" class="form-control" value="${ledgerTotal.INCOME }">
-				</div>
-			</div>
-
-			<div class="col-lg-4">
-				<div class="input-group form-group-lg">
-					<div class="input-group-prepend">
-						<button type="button" class="btn btn-danger">지출</button>
-					</div>
-					<input type="text" class="form-control" value="${ledgerTotal.EXPENDITURE }">
-				</div>
-			</div>
-
-			<div class="col-lg-4">
-				<div class="input-group form-group-lg">
-					<div class="input-group-prepend">
-						<button type="button" class="btn btn-primary">합계</button>
-					</div>
-					<input type="text" class="form-control" value="${ledgerTotal.TOTAL }">
-				</div>
-			</div>
-
-		</div>
-
-
 		<!-- Row -->
 		<div class="row">
 			<div class="col-12">
 
 				<!-- Card -->
 				<div class="card">
+					<!-- Card-Header -->
+					<div class="card-header">
+						<div class="row">
+							<div class="col-lg-4">
+								<div class="input-group form-group-lg">
+									<div class="input-group-prepend">
+										<button type="button" class="btn btn-success">수입</button>
+									</div>
+									<input type="text" class="form-control"
+										value="${ledgerTotal.INCOME }" readonly>
+								</div>
+							</div>
+
+							<div class="col-lg-4">
+								<div class="input-group form-group-lg">
+									<div class="input-group-prepend">
+										<button type="button" class="btn btn-danger">지출</button>
+									</div>
+									<input type="text" class="form-control"
+										value="-${ledgerTotal.EXPENDITURE }" readonly>
+								</div>
+							</div>
+
+							<div class="col-lg-4">
+								<div class="input-group form-group-lg">
+									<div class="input-group-prepend">
+										<button type="button" class="btn btn-primary">합계</button>
+									</div>
+									<input type="text" class="form-control"
+										value="${ledgerTotal.TOTAL }" readonly>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- /.card-header -->
+					
 					<!-- Card-body -->
 					<div class="card-body p-0">
 						<c:choose>
@@ -138,7 +147,7 @@
 													</td>
 													<td style="width: 10%;">
 														<button class="btn btn-primary btn-sm" title="수정"
-															onclick="fn_updateModal(${row_ll.LEDGER_IDX})">
+															onclick="fn_openUpdateModal(${row_ll.LEDGER_IDX})">
 															<i class="fas fa-pencil-alt"></i>
 														</button>
 														<button class="btn btn-danger btn-sm" title="삭제"
@@ -178,15 +187,15 @@
 <!-- /.content wrapper -->
 
 <!-- Modal -->
-<div class="modal fade" id="modal-lg">
+<div class="modal fade" id="modal-lg-update">
 	<!-- Modal-dialog -->
 	<div class="modal-dialog modal-lg">
 		<!-- Modal-content -->
 		<div class="modal-content">
 			<div class="modal-header">
 				<h4 class="modal-title">내역 수정</h4>
-				<button type="button" class="close">
-					<span aria-hidden="true" onclick="fn_closeModal()">&times;</span>
+				<button type="button" class="close" onclick="fn_closeModal()">
+					<span aria-hidden="true">&times;</span>
 				</button>
 			</div>
 			<div class="modal-body">
@@ -207,12 +216,42 @@
 </div>
 <!-- /.modal -->
 
+<!-- Modal -->
+<div class="modal fade" id="modal-lg-insert">
+	<!-- Modal-dialog -->
+	<div class="modal-dialog modal-default">
+		<!-- Modal-content -->
+		<div class="modal-content card-info">
+			<div class="modal-header">
+				<h4 class="modal-title">가계부 입력</h4>
+				<button type="button" class="close" onclick="fn_closeModal()">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<!-- Insert Form -->
+				<%@include file="./ledger_insertForm.jsp"%>
+				<!-- /.insert-form -->
+			</div>
+			<div class="modal-footer justify-content-between">
+				<button type="button" class="btn btn-default"
+					onclick="fn_closeModal()">닫기</button>
+				<button type="button" class="btn btn-primary"
+					onclick="fn_insertLedger()">입력하기</button>
+			</div>
+		</div>
+		<!-- /.modal-content -->
+	</div>
+	<!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+
 <!-- Script -->
 <script type="text/javascript">
 
 window.onload = function() {
 	//Date range picker
-	$('#reservation').daterangepicker({
+	$('#selectPeriod').daterangepicker({
 		locale:{
 			format: 'YYYY-MM-DD'
 		},
@@ -220,6 +259,14 @@ window.onload = function() {
 		endDate: '${LedgerDTO.end_date}'
 	}, function(start,end,label){
 		fn_selectLedgerPeriod(start.format('YYYY-MM-DD'),end.format('YYYY-MM-DD'));
+	});
+	
+	$('#selectDate').daterangepicker({
+		locale:{
+			format: 'YYYY-MM-DD'
+		},
+		singleDatePicker: true,
+		showDropdowns: true
 	});
 	
 	// Month Button
@@ -247,9 +294,9 @@ function fn_selectLedgerPeriod(start_date,end_date){
 }
 
 // [Modal]: 가계부 내역 수정 Modal 열기
-function fn_updateModal(ledger_idx){
+function fn_openUpdateModal(ledger_idx){
 	// Modal 열기
-	$("#modal-lg").modal("show");
+	$("#modal-lg-update").modal("show");
 	
 	// ledger_idx에 해당하는 정보 가져오기
 	var tuple = $("#ledgerTuple"+ledger_idx);
@@ -280,9 +327,22 @@ function fn_updateLedger(){
 	form.submit();
 }
 
+//[Modal]: 가계부 내역 입력 Modal 열기
+function fn_openInsertModal(){
+	// Modal 열기
+	$("#modal-lg-insert").modal("show");
+}
+
+function fn_insertLedger() {
+	var form = document.getElementById("ledgerInputForm");
+	form.action = "<c:url value='/ledger/insertLedger.do'/>";
+	form.submit();
+}
+
 // Modal창 닫기
 function fn_closeModal(){
-	$("#modal-lg").modal("hide");
+	$("#modal-lg-insert").modal("hide");
+	$("#modal-lg-update").modal("hide");
 }
 
 // 가계부 내역삭제 기능
