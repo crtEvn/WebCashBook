@@ -4,6 +4,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -74,10 +75,43 @@ public class LedgerController {
 		}
 		
 		// Attribute 저장
+		model.addAttribute("page","day");
 		model.addAttribute("ledgerTotal", ledgerTotal);
 		model.addAttribute("dateGroup", dateGroup);
 		model.addAttribute("ledgerList", ledgerList);
 		model.addAttribute("LedgerDTO", dto);
+		
+		return "ledger/ledger_main";
+	}
+	
+	// 가계부 내역을 달력으로 보여주는 페이지
+	@RequestMapping(value="/ledger/calendar.do")
+	public String ledger_cal(Model model, LedgerDTO dto, HttpSession session) throws Exception {
+		
+		// userSession: User 정보 불러오기
+		UserVO userSession = (UserVO) session.getAttribute("userSession");
+		
+		// 로그인 정보 없을 경우 -> SignIn 페이지로 이동
+		if(userSession == null) {
+			return "redirect:/user/signin.do";
+		}
+		
+		// dto.getDate() 값이 없을 경우 이번달로 설정
+		if(dto.getDate() == null) {
+			Calendar c = Calendar.getInstance();
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM");
+			dto.setDate(sdf.format(c.getTime()));
+			log.debug("dto.getDate(): "+dto.getDate());
+		}
+		log.debug("dto.getDate(): "+dto.getDate());
+		// Calendar List 불러오기
+		dto.setUser_idx(userSession.getUser_idx());
+		List<Map<String,Object>> calDateGroup = ledgerService.getCalendarDateGroup(dto);
+		
+		// Attribute 저장
+		model.addAttribute("page","calendar");
+		model.addAttribute("LedgerDTO", dto);
+		model.addAttribute("calDateGroup", calDateGroup);
 		
 		return "ledger/ledger_main";
 	}

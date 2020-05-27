@@ -21,4 +21,6 @@ public interface LedgerService {
 	List<Map<String, Object>> getLedgerByDate(LedgerDTO dto) throws Exception;
 	
 	Map<String, Object> getLedgerTotal(LedgerDTO dto) throws Exception;
+	
+	List<Map<String, Object>> getCalendarDateGroup(LedgerDTO dto) throws Exception;
 }

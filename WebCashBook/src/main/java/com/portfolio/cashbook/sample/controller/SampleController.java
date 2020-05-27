@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
@@ -18,6 +20,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.portfolio.cashbook.ledger.dto.LedgerDTO;
+import com.portfolio.cashbook.ledger.service.LedgerService;
 import com.portfolio.cashbook.sample.service.SampleService;
 import com.portfolio.cashbook.user.dto.SignDTO;
 import com.portfolio.cashbook.user.service.UserService;
@@ -36,6 +40,9 @@ public class SampleController {
 	
 	@Resource(name="userService")
     private UserService userService;
+	
+	@Resource(name="ledgerService")
+    private LedgerService ledgerService;
 	
 	// LoggerInterceptor가 동작하는지 확인하기 위함
 	@RequestMapping(value="/testInterceptor.do")
@@ -120,6 +127,26 @@ public class SampleController {
 		session.setAttribute("userSession", userVO);
 		
 		return "redirect:/ledger/main.do";
+	}
+	
+	// 자동 로그인
+	@RequestMapping(value="/testCalendar.do")
+	public String testCal(Model model, LedgerDTO dto, HttpSession session) throws Exception {
+		
+		dto.setUser_idx("1");
+		
+		List<Map<String,Object>> calDateGroup = ledgerService.getCalendarDateGroup(dto);
+		
+		log.debug("calDateGroup.size(): "+calDateGroup.size());
+		for(int a = 0; a < calDateGroup.size(); a++ ) {
+			log.debug(a+": "+calDateGroup.get(a));
+		}
+		
+		// Attribute 저장
+		model.addAttribute("page","calendar");
+		model.addAttribute("calDateGroup", calDateGroup);
+		
+		return "ledger/ledger_main";
 	}
 
 }
