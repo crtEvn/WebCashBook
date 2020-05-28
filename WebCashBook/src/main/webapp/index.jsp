@@ -15,7 +15,6 @@
 		<p><a href="<c:url value='/user/signup.do'/>">user/signup.do</p>
 		<p><a href="<c:url value='/user/signout.do'/>">user/signout.do</p>
 		<p><a href="<c:url value='/autoSignIn.do'/>">자동 로그인</p>
-		<p><a href="<c:url value='/testCalendar.do'/>">testCalendar.do</p>
 	</div>
 </body>
 </html>

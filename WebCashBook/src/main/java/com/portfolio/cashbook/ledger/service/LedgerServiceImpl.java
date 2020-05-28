@@ -57,6 +57,7 @@ public class LedgerServiceImpl implements LedgerService{
 
 	@Override
 	public List<Map<String, Object>> getCalendarDateGroup(LedgerDTO dto) throws Exception {
+		/* 필요한 값 : LedgerDTO.date(없으면 자동 설정됨) */
 		
 		Calendar cal = Calendar.getInstance();
 		
@@ -65,6 +66,7 @@ public class LedgerServiceImpl implements LedgerService{
 		int preEndDay, preStartDay;
 		int indexDateGroup = 0; // dateGroup List를 불러올때 사용할 인덱스
 		
+		// year, month 값 설정
 		if(dto.getDate() == null) {
 			// 날짜 값 없을 경우 오늘 년, 월 설정
 			year = cal.get(Calendar.YEAR);

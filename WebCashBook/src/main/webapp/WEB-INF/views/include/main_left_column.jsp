@@ -23,13 +23,13 @@
               <i class="nav-icon fas fa-table"></i>
               <p>
                	 가계부
-                <i class="fas fa-angle-left right"></i>
+                <!-- <i class="fas fa-angle-left right"></i> -->
               </p>
             </a>
             <ul class="nav nav-treeview">
             <li class="nav-item">
               <li class="nav-item">
-                <a href="#" class="nav-link">
+                <a href="<c:url value='/ledger/main.do'/>" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>일간</p>
                 </a>
@@ -50,11 +50,10 @@
           </li>
           
           <li class="nav-item has-treeview menu-open">
-            <a href="#" class="nav-link">
+            <a href="<c:url value='/ledger/calendar.do'/>" class="nav-link">
               <i class="nav-icon fas fa-calendar-alt"></i>
               <p>
 				달력
-                <i class="right fas fa-angle-left"></i>
               </p>
             </a>
           </li>
@@ -64,7 +63,6 @@
               <i class="nav-icon fas fa-chart-pie"></i>
               <p>
 				차트
-                <i class="right fas fa-angle-left"></i>
               </p>
             </a>
           </li>
@@ -74,7 +72,6 @@
               <i class="nav-icon fas fa-user"></i>
               <p>
 				MyPage
-                <i class="right fas fa-angle-left"></i>
               </p>
             </a>
           </li>
