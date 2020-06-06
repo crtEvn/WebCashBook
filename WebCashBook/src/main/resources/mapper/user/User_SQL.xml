@@ -28,4 +28,22 @@
     	]]>
     </insert>
     
+    <insert id="user.insertCategory_in" parameterType="hashMap">
+    	<![CDATA[
+    	INSERT INTO CATEGORY_IN
+    		(USER_IDX, CATEGORY_IN_NAME)
+    	VALUES
+    		(#{user_idx}, #{category_in_name})
+    	]]>
+    </insert>
+    
+    <insert id="user.insertCategory_ex" parameterType="hashMap">
+    	<![CDATA[
+    	INSERT INTO CATEGORY_EX
+    		(USER_IDX, CATEGORY_EX_NAME)
+    	VALUES
+    		(#{user_idx}, #{category_ex_name})
+    	]]>
+    </insert>
+    
 </mapper>

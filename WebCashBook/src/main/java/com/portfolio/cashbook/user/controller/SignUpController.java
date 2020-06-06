@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.portfolio.cashbook.user.dto.SignDTO;
 import com.portfolio.cashbook.user.service.UserService;
+import com.portfolio.cashbook.user.vo.UserVO;
 
 @Controller
 public class SignUpController {
@@ -70,6 +71,10 @@ public class SignUpController {
 		// [INSERT] Sign Up
 		userService.insertUser(signDTO);
 		log.debug("SignUp 성공");
+		
+		// Insert Category
+		UserVO userVO =  userService.selectUser(signDTO);
+		userService.insertFirstCategory(userVO.getUser_idx());
 		
 		return "redirect:/user/signin.do";
 	}

@@ -1,6 +1,8 @@
 package com.portfolio.cashbook.user.service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -48,6 +50,36 @@ public class UserServiceImpl implements UserService{
 		}
 		
 		return validatorResult;
+	}
+
+	@Override
+	public void insertFirstCategory(String user_idx) throws Exception {
+		
+		String[] expenditure = {"식비","주거비","교통비","통신비","보험비","생활비","교육비","기타소비지출"};
+		String[] income = {"근로소득","금융소득","기타소득"};
+		
+		Map<String, String> ctgrMap = null;
+		
+		// Insert Expenditure Category
+		for(int a=0; a<expenditure.length; a++) {
+			
+			ctgrMap = new HashMap<String, String>();
+			ctgrMap.put("user_idx", user_idx);
+			ctgrMap.put("category_ex_name", expenditure[a]);
+			
+			userDAO.insertCategory_ex(ctgrMap);
+		}
+		
+		// Insert Income Category
+		for(int a=0; a<income.length; a++) {
+			
+			ctgrMap = new HashMap<String, String>();
+			ctgrMap.put("user_idx", user_idx);
+			ctgrMap.put("category_in_name", income[a]);
+			
+			userDAO.insertCategory_in(ctgrMap);
+		}
+		
 	}
 	
 	

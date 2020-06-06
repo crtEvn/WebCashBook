@@ -17,4 +17,6 @@ public interface UserService {
 	
 	Map<String, String> validateHandling(Errors errors) throws Exception;
 	
+	void insertFirstCategory(String user_idx) throws Exception;
+	
 }

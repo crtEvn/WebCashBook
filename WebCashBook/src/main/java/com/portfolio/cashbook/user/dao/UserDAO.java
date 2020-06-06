@@ -1,5 +1,7 @@
 package com.portfolio.cashbook.user.dao;
 
+import java.util.Map;
+
 import org.springframework.stereotype.Repository;
 
 import com.portfolio.cashbook.common.dao.AbstractDAO;
@@ -22,5 +24,15 @@ public class UserDAO extends AbstractDAO{
 	// SignUp - 회원가입
 	public void insertUser(SignDTO signDTO) {
 		insert("user.insertUser", signDTO);
+	}
+	
+	// [INSERT] Income Category
+	public void insertCategory_in(Map<String, String> ctgrMap) {
+		insert("user.insertCategory_in", ctgrMap);
+	}
+	
+	// [INSERT] Expenditure Category
+	public void insertCategory_ex(Map<String, String> ctgrMap) {
+		insert("user.insertCategory_ex", ctgrMap);
 	}
 }
