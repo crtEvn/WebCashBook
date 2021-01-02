@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+<mapper namespace="qna">
+
+	<select id="qna.selectQnaBoardList" resultType="hashmap">
+		<![CDATA[
+		SELECT BOARD_IDX, USER_IDX, SUBJECT, HIT_CNT, REG_DATE
+		FROM QNA_BOARD
+		]]>
+	</select>
+	
+	<select id="qna.selectQnaBoardContent" parameterType="String" resultType="hashmap">
+		<![CDATA[
+		SELECT T1.BOARD_IDX, T1.USER_IDX, T2.USER_ID, T1.SUBJECT, T1.CONTENT, T1.HIT_CNT, T1.REG_DATE
+		FROM QNA_BOARD T1
+		JOIN USERS T2
+		WHERE T1.USER_IDX = T2.USER_IDX
+		AND T1.BOARD_IDX = ${value}
+		]]>
+	</select>
+
+</mapper>
