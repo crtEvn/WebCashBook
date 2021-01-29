@@ -19,5 +19,14 @@
 		AND T1.BOARD_IDX = ${value}
 		]]>
 	</select>
+	
+	<insert id="qna.insertQnaBoardContent" parameterType="com.portfolio.cashbook.qna.vo.QnaBoardVO">
+		<![CDATA[
+		INSERT INTO QNA_BOARD
+			(USER_IDX, SUBJECT, CONTENT)
+		VALUES
+			(#{user_idx},#{subject},#{content})
+		]]>
+	</insert>
 
 </mapper>

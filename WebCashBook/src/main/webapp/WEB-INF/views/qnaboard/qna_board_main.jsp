@@ -20,6 +20,9 @@
 			<c:when test="${page eq 'content'}">
 				<%@include file="./qna_board_content.jsp" %>
 			</c:when>
+			<c:when test="${page eq 'write'}">
+				<%@include file="./qna_board_write.jsp" %>
+			</c:when>
 		</c:choose>
 		<%@include file="../include/main_footer.jsp" %>
 	</div>

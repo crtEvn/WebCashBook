@@ -8,6 +8,7 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 import com.portfolio.cashbook.qna.dao.QnaDAO;
+import com.portfolio.cashbook.qna.vo.QnaBoardVO;
 
 @Service("qnaService")
 public class QnaServiceImpl implements QnaService {
@@ -24,7 +25,10 @@ public class QnaServiceImpl implements QnaService {
 	public Map<String, Object> getQnaBoardContent(String board_idx) throws Exception {
 		return qnaDAO.getQnaContent(board_idx);
 	}
-	
-	
+
+	@Override
+	public void insertQnaContent(QnaBoardVO vo) throws Exception {
+		qnaDAO.insertQnaContent(vo);
+	}
 
 }

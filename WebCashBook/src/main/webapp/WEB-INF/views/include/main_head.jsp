@@ -24,3 +24,5 @@
   <link rel="stylesheet" href="<c:url value="/resources/adminLTE/plugins/icheck-bootstrap/icheck-bootstrap.min.css"/>">
   <!-- fullCalendar -->
   <link rel="stylesheet" href="<c:url value="/resources/adminLTE/plugins/fullcalendar/main.min.css"/>">
+  <!-- summernote -->
+  <link rel="stylesheet" href="<c:url value="/resources/adminLTE/plugins/summernote/summernote-bs4.css"/>">

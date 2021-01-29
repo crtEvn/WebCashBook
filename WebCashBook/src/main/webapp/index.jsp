@@ -16,6 +16,7 @@
 		<p><a href="<c:url value='/user/signout.do'/>">user/signout.do</p>
 		<p><a href="<c:url value='/qna/list.do'/>">qna/list.do</p>
 		<p><a href="<c:url value='/qna/content.do?board_idx=1'/>">qna/content.do</p>
+		<p><a href="<c:url value='/qna/write.do'/>">qna/write.do</p>
 		<p><a href="<c:url value='/autoSignIn.do'/>">자동 로그인</p>
 	</div>
 </body>
