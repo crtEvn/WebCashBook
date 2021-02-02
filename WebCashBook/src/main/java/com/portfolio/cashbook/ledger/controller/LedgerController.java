@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.logging.Log;
@@ -118,7 +119,7 @@ public class LedgerController {
 	
 	// [INSERT] : 가계부 내역 입력 기능
 	@RequestMapping(value="/ledger/insertLedger.do")
-	public String insert_ledger(Model model, LedgerVO vo, HttpSession session) throws Exception {
+	public String insert_ledger(Model model, LedgerVO vo, HttpSession session, HttpServletRequest request) throws Exception {
 		
 		// LedgerVO에 user_id값 설정
 		UserVO userSession = (UserVO) session.getAttribute("userSession");
@@ -126,7 +127,10 @@ public class LedgerController {
 		
 		ledgerService.insertLedger(vo);
 		
-		return "redirect:/ledger/main.do";
+		// 이전 페이지 저장
+		String referer = request.getHeader("Referer");
+		
+		return "redirect:"+referer;
 	}
 	
 	// [DELETE] : 가계부 내역 삭제 기능

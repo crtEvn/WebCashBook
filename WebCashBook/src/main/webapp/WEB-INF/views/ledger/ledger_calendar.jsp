@@ -19,6 +19,27 @@
 
 	<!-- Main content -->
 	<section class="content">
+	
+		<!-- Row -->
+		<div class="row">
+			<div class="col-12">
+				<!-- Card -->
+				<div class="card">
+					<!-- Card-body -->
+					<div class="card-body">
+						<div class="row">
+							<div class="btn-group col-md-5" style="margin: 0 auto">
+								<button type="button" class="btn btn-default" onclick="fn_openInsertModal()">가계부 입력</button>
+							</div>
+						</div>
+					</div>
+					<!-- /.card-body -->
+				</div>
+				<!-- /.card -->
+			</div>
+		</div>
+		<!-- /.row -->
+	
 		<!-- Row -->
 		<div class="row">
 			<div class="col-12">
@@ -129,6 +150,36 @@
 </div>
 <!-- /.content wrapper -->
 
+<!-- Modal -->
+<div class="modal fade" id="modal-lg-insert">
+	<!-- Modal-dialog -->
+	<div class="modal-dialog modal-default">
+		<!-- Modal-content -->
+		<div class="modal-content card-info">
+			<div class="modal-header">
+				<h4 class="modal-title">가계부 입력</h4>
+				<button type="button" class="close" onclick="fn_closeModal()">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<!-- Insert Form -->
+				<%@include file="./ledger_insertForm.jsp"%>
+				<!-- /.insert-form -->
+			</div>
+			<div class="modal-footer justify-content-between">
+				<button type="button" class="btn btn-default"
+					onclick="fn_closeModal()">닫기</button>
+				<button type="button" class="btn btn-primary"
+					onclick="fn_insertLedger()">입력하기</button>
+			</div>
+		</div>
+		<!-- /.modal-content -->
+	</div>
+	<!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+
 <script type="text/javascript">
 
 window.onload = function() {
@@ -159,12 +210,40 @@ window.onload = function() {
 		
 		fn_selectMonth();
 	});
+	
+	// ledger insert form 날짜 입력 용
+	$('#selectDate').daterangepicker({
+		locale:{
+			format: 'YYYY-MM-DD'
+		},
+		singleDatePicker: true,
+		showDropdowns: true
+	});
 }
 	
 function fn_selectMonth() {
 	var form = $("#selectMonth");
 	form.action = "<c:url value='/ledger/calendar.do'/>";
 	form.submit();
+}
+
+//[Modal]: 가계부 내역 입력 Modal 열기
+function fn_openInsertModal(){
+	// Modal 열기
+	$("#modal-lg-insert").modal("show");
+}
+
+// 가계부 입력
+function fn_insertLedger() {
+	var form = document.getElementById("ledgerInputForm");
+	form.action = "<c:url value='/ledger/insertLedger.do'/>";
+	form.submit();
+}
+
+// Modal창 닫기
+function fn_closeModal(){
+	$("#modal-lg-insert").modal("hide");
+	$("#modal-lg-update").modal("hide");
 }
 
 	
