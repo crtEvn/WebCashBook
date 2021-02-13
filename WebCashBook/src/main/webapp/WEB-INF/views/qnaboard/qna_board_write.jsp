@@ -86,8 +86,6 @@ function fn_insertQnaContent() {
 	var subject = $('input[name=subject]').val();
 	var content = $('textarea[name=content]').val();
 	
-	if(subject)
-	
 	var form = document.getElementById("writeQnaContentForm");
 	form.action = "<c:url value='/qna/insertQnaContent.do'/>";
 	form.submit();

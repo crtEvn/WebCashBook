@@ -17,8 +17,8 @@ public class QnaServiceImpl implements QnaService {
 	private QnaDAO qnaDAO;
 
 	@Override
-	public List<Map<String, Object>> getQnaBoardList() throws Exception {
-		return qnaDAO.getQnaList();
+	public List<Map<String, Object>> getQnaBoardList(String SQL_Syntax) throws Exception {
+		return qnaDAO.getQnaList(SQL_Syntax);
 	}
 
 	@Override

@@ -17,6 +17,9 @@
 			<c:when test="${page eq 'list'}">
 				<%@include file="./qna_board_list.jsp" %>
 			</c:when>
+			<c:when test="${page eq 'my_post'}">
+				<%@include file="./qna_board_list.jsp" %>
+			</c:when>
 			<c:when test="${page eq 'content'}">
 				<%@include file="./qna_board_content.jsp" %>
 			</c:when>

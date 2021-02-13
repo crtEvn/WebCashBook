@@ -10,7 +10,14 @@
 		<div class="container-fluid">
 			<div class="row mb-2">
 				<div class="col-sm-6">
-					<h1>QnA 게시판</h1>
+					<c:choose>
+						<c:when test="${page eq 'list'}">
+							<h1>QnA 게시판</h1>
+						</c:when>
+						<c:when test="${page eq 'my_post'}">
+							<h1>QnA 게시판: 내가 쓴글</h1>
+						</c:when>
+					</c:choose>
 				</div>
 			</div>
 		</div>
@@ -29,22 +36,31 @@
 						<!-- Card-header -->
 						<div class="card-header">
 							<!-- My contents -->
-							<div class="input-group-append float-left">
-								<button type="submit" class="btn btn-block btn-default btn-sm">
+							<div class="input-group-sm float-left">
+								<button type="button" class="btn btn-primary" onclick="fn_linkToWrite()">
+										<b><i class="fas fa-pencil-alt"></i> 글쓰기</b>
+								</button>
+								<button type="button" class="btn btn-default" onclick="fn_myPost()">
 									<b>내가 쓴 글</b>
 								</button>
 							</div>
 							<!-- /.my contents -->
 							<!-- Search bar -->
-							<div class="input-group input-group-sm float-right"
-								style="width: 300px;">
-								<input type="text" name="table_search" class="form-control"
-									placeholder="Search">
-								<div class="input-group-append">
-									<button type="submit" class="btn btn-default">
-										<i class="fas fa-search"></i><b> 검색</b>
-									</button>
-								</div>
+							<div class="input-group input-group-sm float-right" style="width: 300px;">
+								<form id="searchQnaBoardForm">
+									<select name="select_type">
+										<option value="sub+cont">제목+내용</option>
+										<option value="sub">제목</option>
+										<option value="cont">내용</option>
+										<option value="user">글쓴이</option>
+									</select>
+									<input type="text" name="keyword" class="form-control" placeholder="Search" required>
+									<div class="input-group-append">
+										<button type="button" class="btn btn-default" onclick="fn_searchQnaBoard()">
+											<i class="fas fa-search"></i><b> 검색</b>
+										</button>
+									</div>
+								</form>
 							</div>
 							<!-- /.search bar -->
 						</div>
@@ -55,11 +71,11 @@
 							<table class="table table-hover">
 								<thead>
 									<tr>
-										<th>번호</th>
-										<th>제목</th>
-										<th>글쓴이</th>
-										<th>날짜</th>
-										<th>조회수</th>
+										<th style="width: 10%;">번호</th>
+										<th style="width: 44%;">제목</th>
+										<th style="width: 13%;">글쓴이</th>
+										<th style="width: 23%;">날짜</th>
+										<th style="width: 10%;">조회수</th>
 									</tr>
 								</thead>
 								<tbody>
@@ -120,3 +136,36 @@
 
 </div>
 <!-- ./content wrapper -->
+
+<!-- Page Script -->
+<script type="text/javascript">
+	
+	function fn_linkToWrite(){
+		location.href="<c:url value='/qna/write.do'/>"
+	}
+	
+	function fn_myPost(){
+		var form = document.getElementById("searchQnaBoardForm");
+		
+		$('select[name=select_type] option:selected').val('');
+		$('input[name=keyword]').val('');
+		
+		form.action = "<c:url value='/qna/myPost.do'/>";
+		form.method = "get"
+		form.submit();
+	}
+	
+	function fn_searchQnaBoard(){
+		
+		if($('input[name=keyword]').val() == ''){
+			alert('검색어를 입력해 주세요');
+		}else {
+			var form = document.getElementById("searchQnaBoardForm");
+			
+			form.action = "<c:url value='/qna/list.do'/>";
+			form.method = "get"
+			form.submit();
+		}
+	}
+
+</script>

@@ -68,6 +68,15 @@
           </li>
           
           <li class="nav-item has-treeview menu-open">
+            <a href="<c:url value='/qna/list.do'/>" class="nav-link">
+              <i class="nav-icon fas fa-comments"></i>
+              <p>
+				Q&A 게시판
+              </p>
+            </a>
+          </li>
+          
+          <li class="nav-item has-treeview menu-open">
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-user"></i>
               <p>

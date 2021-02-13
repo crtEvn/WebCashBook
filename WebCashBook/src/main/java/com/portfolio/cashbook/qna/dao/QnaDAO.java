@@ -12,8 +12,8 @@ import com.portfolio.cashbook.qna.vo.QnaBoardVO;
 public class QnaDAO extends AbstractDAO{
 	
 	@SuppressWarnings("unchecked")
-	public List<Map<String, Object>> getQnaList() {
-		return (List<Map<String, Object>>)selectList("qna.selectQnaBoardList");
+	public List<Map<String, Object>> getQnaList(String SQL_Syntax) {
+		return (List<Map<String, Object>>)selectList("qna.selectQnaBoardList", SQL_Syntax);
 	}
 	
 	@SuppressWarnings("unchecked")

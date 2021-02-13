@@ -7,7 +7,7 @@ import com.portfolio.cashbook.qna.vo.QnaBoardVO;
 
 public interface QnaService {
 	
-	List<Map<String, Object>> getQnaBoardList() throws Exception;
+	List<Map<String, Object>> getQnaBoardList(String SQL_Syntax) throws Exception;
 	
 	Map<String, Object> getQnaBoardContent(String board_idx) throws Exception;
 	
