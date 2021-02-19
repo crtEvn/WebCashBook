@@ -3,13 +3,22 @@
  
 <mapper namespace="qna">
 
-	<select id="qna.selectQnaBoardList" parameterType="String" resultType="hashmap">
+	<select id="qna.countQnaBoard" resultType="int">
+		<![CDATA[
+		SELECT COUNT(*)
+		FROM QNA_BOARD
+		]]>
+	</select>
+
+	<select id="qna.selectQnaBoardList" parameterType="com.portfolio.cashbook.qna.vo.PagingCriteriaVO" resultType="hashmap">
 		<![CDATA[
 		SELECT T1.BOARD_IDX, T2.USER_ID, T1.SUBJECT, T1.HIT_CNT, T1.REG_DATE
 		FROM QNA_BOARD T1
 		JOIN USERS T2
 		WHERE T1.USER_IDX = T2.USER_IDX
-		${value}
+		${sql_syntax}
+		ORDER BY T1.BOARD_IDX DESC
+		LIMIT #{firstContentIndex}, #{contentPerPage}
 		]]>
 	</select>
 

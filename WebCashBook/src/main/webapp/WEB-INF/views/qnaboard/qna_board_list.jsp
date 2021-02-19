@@ -55,6 +55,7 @@
 										<option value="user">글쓴이</option>
 									</select>
 									<input type="text" name="keyword" class="form-control" placeholder="Search" required>
+									<input type="hidden" name="currentPageNo" value="1">
 									<div class="input-group-append">
 										<button type="button" class="btn btn-default" onclick="fn_searchQnaBoard()">
 											<i class="fas fa-search"></i><b> 검색</b>
@@ -107,21 +108,57 @@
 						<div class="card-footer">
 							<ul class="pagination pagination-sm m-0"
 								style="justify-content: center;">
+								
 								<li class="page-item">
-									<a class="page-link" href="#">&laquo;</a>
+									<a class="page-link" href="${pageContext.request.contextPath}/qna/list.do?keyword=${param.keyword}&currentPageNo=1">
+										처음
+									</a>
 								</li>
+								
+								<c:choose>
+									<c:when test="${pagingData.hasPreviousBlock == true }">
+										<li class="page-item">
+											<a class="page-link" href="${pageContext.request.contextPath}/qna/list.do?keyword=${param.keyword}&currentPageNo=${param.currentPageNo-pagingData.pageSize}">
+												이전
+											</a>
+										</li>
+									</c:when>
+									<c:otherwise>
+										<li class="page-item">
+											<a class="page-link" href="#">이전 없음</a>
+										</li>
+									</c:otherwise>
+								</c:choose>
+								
+								<c:forEach var="paging" begin="${pagingData.firstPageNo}" end="${pagingData.lastPageNo}" step="1" varStatus="status">
+									<li class="page-item">
+										<a class="page-link" href="${pageContext.request.contextPath}/qna/list.do?keyword=${param.keyword}&currentPageNo=${status.current}">
+											${status.current}
+										</a>
+									</li>
+								</c:forEach>
+								 
+								<c:choose>
+									<c:when test="${pagingData.hasNextBlock == true }">
+										<li class="page-item">
+											<a class="page-link" href="${pageContext.request.contextPath}/qna/list.do?keyword=${param.keyword}&currentPageNo=${param.currentPageNo+pagingData.pageSize}">
+												다음
+											</a>
+										</li>
+									</c:when>
+									<c:otherwise>
+										<li class="page-item">
+											<a class="page-link" href="#">다음 없음</a>
+										</li>
+									</c:otherwise>
+								</c:choose>
+								
 								<li class="page-item">
-									<a class="page-link" href="#">1</a>
+									<a class="page-link" href="${pageContext.request.contextPath}/qna/list.do?keyword=${param.keyword}&currentPageNo=${pagingData.totalPageCount}">
+											끝
+									</a>
 								</li>
-								<li class="page-item">
-									<a class="page-link" href="#">2</a>
-								</li>
-								<li class="page-item">
-									<a class="page-link" href="#">3</a>
-								</li>
-								<li class="page-item">
-									<a class="page-link" href="#">&raquo;</a>
-								</li>
+								
 							</ul>
 						</div>
 						<!-- /.card-footer -->
@@ -145,11 +182,10 @@
 	}
 	
 	function fn_myPost(){
+		
+		$('select[name=select_type] option:selected').val('my_post');
+		
 		var form = document.getElementById("searchQnaBoardForm");
-		
-		$('select[name=select_type] option:selected').val('');
-		$('input[name=keyword]').val('');
-		
 		form.action = "<c:url value='/qna/myPost.do'/>";
 		form.method = "get"
 		form.submit();

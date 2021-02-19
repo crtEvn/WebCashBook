@@ -6,14 +6,19 @@ import java.util.Map;
 import org.springframework.stereotype.Repository;
 
 import com.portfolio.cashbook.common.dao.AbstractDAO;
+import com.portfolio.cashbook.qna.vo.PagingCriteriaVO;
 import com.portfolio.cashbook.qna.vo.QnaBoardVO;
 
 @Repository("qnaDAO")
 public class QnaDAO extends AbstractDAO{
 	
+	public int getTotalContentCount() {
+		return (int)selectOne("qna.countQnaBoard");
+	}
+	
 	@SuppressWarnings("unchecked")
-	public List<Map<String, Object>> getQnaList(String SQL_Syntax) {
-		return (List<Map<String, Object>>)selectList("qna.selectQnaBoardList", SQL_Syntax);
+	public List<Map<String, Object>> getQnaList(PagingCriteriaVO creteriaVO) {
+		return (List<Map<String, Object>>)selectList("qna.selectQnaBoardList", creteriaVO);
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -21,7 +26,6 @@ public class QnaDAO extends AbstractDAO{
 		return (Map<String, Object>)selectOne("qna.selectQnaBoardContent", board_idx);
 	}
 	
-	@SuppressWarnings("unchecked")
 	public void insertQnaContent(QnaBoardVO vo) {
 		insert("qna.insertQnaBoardContent", vo);
 	}
