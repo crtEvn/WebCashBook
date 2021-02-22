@@ -55,6 +55,9 @@
 									<i class="fas fa-reply"></i> 이전글
 								</button>
 								<button type="button" class="btn btn-default">
+									<i class="fas fa-bars"></i> 목록으로
+								</button>
+								<button type="button" class="btn btn-default">
 									<i class="fas fa-share"></i> 다음글
 								</button>
 							</div>

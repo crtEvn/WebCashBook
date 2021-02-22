@@ -11,11 +11,17 @@ import com.portfolio.cashbook.qna.vo.QnaBoardVO;
 
 public interface QnaService {
 	
-	public PagingCalculator getPagingData(PagingCriteriaVO creteriaVO) throws Exception;
+	public QnaBoardVO getBoardData(QnaBoardVO qnaBoardVO, PagingCriteriaVO criteriaVO, HttpSession session) throws Exception;
+	
+	public PagingCalculator getPagingData(PagingCriteriaVO creteriaVO, HttpSession session) throws Exception;
 	
 	List<Map<String, Object>> getQnaBoardList(PagingCriteriaVO creteriaVO, HttpSession session) throws Exception;
 	
-	Map<String, Object> getQnaBoardContent(String board_idx) throws Exception;
+	public String setSql_syntax(PagingCriteriaVO criteriaVO) throws Exception;
+	
+	Map<String, Object> getQnaBoardContent(String board_idx, PagingCriteriaVO criteriaVO) throws Exception;
+	
+	public void setNextPrevBoard_idx(String board_idx, PagingCriteriaVO criteriaVO) throws Exception;
 	
 	void insertQnaContent(QnaBoardVO vo) throws Exception;
 

@@ -11,7 +11,7 @@
 			<div class="row mb-2">
 				<div class="col-sm-6">
 					<c:choose>
-						<c:when test="${page eq 'list'}">
+						<c:when test="${page eq 'list' || page eq 'content'}">
 							<h1>QnA 게시판</h1>
 						</c:when>
 						<c:when test="${page eq 'my_post'}">
@@ -27,6 +27,70 @@
 	<!-- Main content -->
 	<section class="content">
 		<div class="container-fluid">
+		
+			<!-- 게시글 Content -->
+			<c:if test="${not empty boardContent.BOARD_IDX }">
+			
+				<!-- Row -->
+				<div class="row">
+					<!-- Col -->
+					<div class="col-12">
+
+						<!-- Card -->
+						<div class="card card-primary card-outline">
+
+							<!-- Card-header -->
+							<div class="card-header">
+								<h5>${boardContent.SUBJECT }</h5>
+								<h6>
+									<span class="mailbox-read-time float-right">
+										${boardContent.USER_ID }, ${boardContent.REG_DATE } </span>
+								</h6>
+							</div>
+							<!-- /.card-header -->
+
+							<!-- Card-body -->
+							<div class="card-body p-0">
+								<div class="mailbox-read-message">
+									<p>${boardContent.CONTENT }</p>
+								</div>
+							</div>
+							<!-- /.card-body -->
+
+							<!-- Card-footer -->
+							<div class="card-footer">
+								<div class="float-right">
+									<button type="button" class="btn btn-default" onclick="fn_linkToNextContent('next')">
+										<i class="fas fa-reply"></i> 다음글
+									</button>
+									<button type="button" class="btn btn-default" onclick="fn_linkToListPage()">
+										<i class="fas fa-bars"></i> 목록으로
+									</button>
+									<button type="button" class="btn btn-default" onclick="fn_linkToNextContent('prev')">
+										<i class="fas fa-share"></i> 이전글
+									</button>
+								</div>
+								<button type="button" class="btn btn-default">
+									<i class="fas fa-pencil-alt"></i> 수정하기
+								</button>
+								<button type="button" class="btn btn-default">
+									<i class="far fa-trash-alt"></i> 삭제하기
+								</button>
+							</div>
+							<!-- /.card-footer -->
+
+						</div>
+						<!-- /.card -->
+
+					</div>
+					<!-- /.col -->
+				</div>
+				<!-- /.row -->
+				
+			</c:if>
+			<!-- /.게시글 Content -->
+
+			<!-- 게시글 리스트 -->
 			<div class="row">
 				<div class="col-12">
 
@@ -37,19 +101,22 @@
 						<div class="card-header">
 							<!-- My contents -->
 							<div class="input-group-sm float-left">
-								<button type="button" class="btn btn-primary" onclick="fn_linkToWrite()">
-										<b><i class="fas fa-pencil-alt"></i> 글쓰기</b>
+								<button type="button" class="btn btn-primary"
+									onclick="fn_linkToWrite()">
+									<b><i class="fas fa-pencil-alt"></i> 글쓰기</b>
 								</button>
-								<button type="button" class="btn btn-default" onclick="fn_myPost()">
+								<button type="button" class="btn btn-default"
+									onclick="fn_myPost()">
 									<b>내가 쓴 글</b>
 								</button>
 							</div>
 							<!-- /.my contents -->
 							<!-- Search bar -->
-							<div class="input-group input-group-sm float-right" style="width: 300px;">
+							<div class="input-group input-group-sm float-right"
+								style="width: 300px;">
 								<form id="searchQnaBoardForm">
 									<select name="select_type">
-										<option value="sub+cont">제목+내용</option>
+										<option value="sub_cont">제목+내용</option>
 										<option value="sub">제목</option>
 										<option value="cont">내용</option>
 										<option value="user">글쓴이</option>
@@ -80,14 +147,14 @@
 									</tr>
 								</thead>
 								<tbody>
-								
+
 									<c:choose>
 										<c:when test="${fn:length(boardList) > 0}">
 											<c:forEach var="qna_list" items="${boardList }">
-												<tr onClick="location.href='${pageContext.request.contextPath}/qna/content.do?board_idx=${qna_list.BOARD_IDX }'" style="cursor:pointer">
+												<tr onclick="fn_linkToContentPage(${qna_list.BOARD_IDX })" style="cursor: pointer">
 													<td>${qna_list.BOARD_IDX }</td>
 													<td>${qna_list.SUBJECT }</td>
-													<td>${qna_list.USER_IDX }</td>
+													<td>${qna_list.USER_ID }</td>
 													<td>${qna_list.REG_DATE }</td>
 													<td>${qna_list.HIT_CNT }</td>
 												</tr>
@@ -108,57 +175,38 @@
 						<div class="card-footer">
 							<ul class="pagination pagination-sm m-0"
 								style="justify-content: center;">
-								
+
 								<li class="page-item">
-									<a class="page-link" href="${pageContext.request.contextPath}/qna/list.do?keyword=${param.keyword}&currentPageNo=1">
-										처음
-									</a>
+									<a class="page-link" onclick="fn_linkForPagingBlock(1)" href="#">처음 </a>
 								</li>
+
 								
-								<c:choose>
-									<c:when test="${pagingData.hasPreviousBlock == true }">
-										<li class="page-item">
-											<a class="page-link" href="${pageContext.request.contextPath}/qna/list.do?keyword=${param.keyword}&currentPageNo=${param.currentPageNo-pagingData.pageSize}">
-												이전
-											</a>
-										</li>
-									</c:when>
-									<c:otherwise>
-										<li class="page-item">
-											<a class="page-link" href="#">이전 없음</a>
-										</li>
-									</c:otherwise>
-								</c:choose>
-								
+								<c:if test="${pagingData.hasPreviousBlock == true }">
+									<li class="page-item">
+										<a class="page-link" onclick="fn_linkForPagingBlock(${param.currentPageNo-10})" href="#">이전 </a>
+									</li>
+								</c:if>
+
 								<c:forEach var="paging" begin="${pagingData.firstPageNo}" end="${pagingData.lastPageNo}" step="1" varStatus="status">
 									<li class="page-item">
-										<a class="page-link" href="${pageContext.request.contextPath}/qna/list.do?keyword=${param.keyword}&currentPageNo=${status.current}">
+										<a class="page-link" onclick="fn_linkForPagingBlock(${status.current})" href="#">
 											${status.current}
 										</a>
 									</li>
 								</c:forEach>
-								 
-								<c:choose>
-									<c:when test="${pagingData.hasNextBlock == true }">
-										<li class="page-item">
-											<a class="page-link" href="${pageContext.request.contextPath}/qna/list.do?keyword=${param.keyword}&currentPageNo=${param.currentPageNo+pagingData.pageSize}">
-												다음
-											</a>
-										</li>
-									</c:when>
-									<c:otherwise>
-										<li class="page-item">
-											<a class="page-link" href="#">다음 없음</a>
-										</li>
-									</c:otherwise>
-								</c:choose>
-								
+
+								<c:if test="${pagingData.hasNextBlock == true }">
+									<li class="page-item">
+										<a class="page-link" onclick="fn_linkForPagingBlock(${param.currentPageNo+10})" href="#">다음 </a>
+									</li>
+								</c:if>
+
 								<li class="page-item">
-									<a class="page-link" href="${pageContext.request.contextPath}/qna/list.do?keyword=${param.keyword}&currentPageNo=${pagingData.totalPageCount}">
-											끝
+									<a class="page-link" onclick="fn_linkForPagingBlock(${pagingData.totalPageCount})" href="#">
+										끝 
 									</a>
 								</li>
-								
+
 							</ul>
 						</div>
 						<!-- /.card-footer -->
@@ -167,6 +215,8 @@
 					<!-- /.card -->
 				</div>
 			</div>
+			<!-- /.게시글 리스트 -->
+
 		</div>
 	</section>
 	<!-- /.main content -->
@@ -182,13 +232,7 @@
 	}
 	
 	function fn_myPost(){
-		
-		$('select[name=select_type] option:selected').val('my_post');
-		
-		var form = document.getElementById("searchQnaBoardForm");
-		form.action = "<c:url value='/qna/myPost.do'/>";
-		form.method = "get"
-		form.submit();
+		location.href='<c:url value="/qna/myPost.do"/>'
 	}
 	
 	function fn_searchQnaBoard(){
@@ -202,6 +246,103 @@
 			form.method = "get"
 			form.submit();
 		}
+	}
+	
+	function fn_makeURL(url, keyword, select_type, board_idx, currentPageNo){
+		
+		if(keyword != ''){
+			url = url + 'keyword=' + keyword + '&';
+		}
+		
+		if(select_type != ''){
+			url = url + 'select_type=' + select_type + '&';
+		}
+		
+		if(board_idx != ''){
+			url = url + 'board_idx=' + board_idx + '&';
+		}
+		
+		if(currentPageNo != ''){
+			url = url + 'currentPageNo=' + currentPageNo;
+		}
+		
+		return url;
+	}
+	
+	// 게시글 페이지로 이동(/qna/content.do)
+	function fn_linkToContentPage(board_idx){
+		
+		var url = '<c:out value="${pageContext.request.contextPath}"/>' + '/qna/content.do?';
+		var keyword = '<c:out value="${param.keyword}"/>';
+		var select_type = '<c:out value="${param.select_type}"/>';
+		var currentPageNo = '<c:out value="${param.currentPageNo}"/>';
+		
+		url = fn_makeURL(url, keyword, select_type, board_idx, currentPageNo);
+		$(location).attr('href',url);
+	}
+	
+	// 다음 페이징 페이지로 이동
+	function fn_linkForPagingBlock(currentPageNo){
+		
+		var url = $(location).attr('protocol') + '//' + $(location).attr('host') + $(location).attr('pathname')+'?';
+		var keyword = '<c:out value="${param.keyword}"/>';
+		var select_type = '<c:out value="${param.select_type}"/>';
+		var board_idx = '<c:out value="${param.board_idx}"/>';
+		
+		// 이동하려는 페이지가 totalPageCount보다 클 경우
+		if(currentPageNo > '<c:out value="${pagingData.totalPageCount}"/>'){
+			currentPageNo = '<c:out value="${pagingData.totalPageCount}"/>';
+		}
+		
+		url = fn_makeURL(url, keyword, select_type, board_idx, currentPageNo);
+		
+		$(location).attr('href',url);
+	}
+	
+	// 다른 게시글(Content 로 이동)
+	function fn_linkToNextContent(nextOrPrev) {
+		
+		var url = '<c:out value="${pageContext.request.contextPath}"/>' + '/qna/content.do?';;
+		var keyword = '<c:out value="${param.keyword}"/>';
+		var select_type = '<c:out value="${param.select_type}"/>';
+		var board_idx;
+		var currentPageNo = '<c:out value="${param.currentPageNo}"/>';
+		
+		switch(nextOrPrev) {
+			case 'next':
+				board_idx = '<c:out value="${pagingData.nextBoard_idx}"/>';
+				break;
+			case 'prev':
+				board_idx = '<c:out value="${pagingData.prevBoard_idx}"/>';
+				break;
+			default:
+				alert('해당 함수에는 next 또는 prev 값만 넣어 주세요');
+				return;
+		}
+		
+		url = fn_makeURL(url, keyword, select_type, board_idx, currentPageNo);
+		$(location).attr('href',url);
+	}
+	
+	// 목록으로 이동(/qna/list.do)
+	function fn_linkToListPage() {
+		var url = '<c:out value="${pageContext.request.contextPath}"/>' + '/qna/list.do?';
+		var keyword = '<c:out value="${param.keyword}"/>';
+		var select_type = '<c:out value="${param.select_type}"/>';
+		var currentPageNo = '<c:out value="${param.currentPageNo}"/>';
+		
+		url = fn_makeURL(url, keyword, select_type, '', currentPageNo);
+		$(location).attr('href',url);
+	}
+	
+	// 게시글 수정 페이지로 이동
+	function fn_linkToUpdatePage() {
+		
+	}
+	
+	// 게시글 삭제
+	function fn_deleteContent() {
+		
 	}
 
 </script>

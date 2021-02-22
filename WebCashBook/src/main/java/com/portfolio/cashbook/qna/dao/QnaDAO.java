@@ -12,8 +12,13 @@ import com.portfolio.cashbook.qna.vo.QnaBoardVO;
 @Repository("qnaDAO")
 public class QnaDAO extends AbstractDAO{
 	
-	public int getTotalContentCount() {
-		return (int)selectOne("qna.countQnaBoard");
+	public int getTotalContentCount(PagingCriteriaVO creteriaVO) {
+		return (int)selectOne("qna.countQnaBoard", creteriaVO);
+	}
+	
+	@SuppressWarnings("unchecked")
+	public Map<String, Object> getMaxMinBoardIdx() {
+		return (Map<String, Object>)selectOne("qna.selectMaxMinBoardIdx");
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -22,8 +27,23 @@ public class QnaDAO extends AbstractDAO{
 	}
 	
 	@SuppressWarnings("unchecked")
+	public Map<String, Object> checkDelete_yn(String board_idx) {
+		return (Map<String, Object>)selectOne("qna.checkDelete_yn", board_idx);
+	}
+	
+	@SuppressWarnings("unchecked")
 	public Map<String, Object> getQnaContent(String board_idx) {
 		return (Map<String, Object>)selectOne("qna.selectQnaBoardContent", board_idx);
+	}
+	
+	@SuppressWarnings("unchecked")
+	public Map<String, Object> getNextQnaContent(Map<String, Object> nextContentParam) {
+		return (Map<String, Object>)selectOne("qna.selectNextQnaBoardContent", nextContentParam);
+	}
+	
+	@SuppressWarnings("unchecked")
+	public Map<String, Object> getPrevQnaContent(Map<String, Object> prevContentParam) {
+		return (Map<String, Object>)selectOne("qna.selectPrevQnaBoardContent", prevContentParam);
 	}
 	
 	public void insertQnaContent(QnaBoardVO vo) {

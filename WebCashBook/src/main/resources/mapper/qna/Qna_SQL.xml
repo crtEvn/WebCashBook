@@ -3,10 +3,22 @@
  
 <mapper namespace="qna">
 
-	<select id="qna.countQnaBoard" resultType="int">
+	<select id="qna.countQnaBoard" parameterType="com.portfolio.cashbook.qna.vo.PagingCriteriaVO" resultType="int">
 		<![CDATA[
 		SELECT COUNT(*)
+		FROM QNA_BOARD T1
+		JOIN USERS T2
+		WHERE T1.USER_IDX = T2.USER_IDX
+		AND T1.DELETE_YN = 'N'
+		${sql_syntax}
+		]]>
+	</select>
+	
+	<select id="qna.selectMaxMinBoardIdx" resultType="hashmap">
+		<![CDATA[
+		SELECT MAX(BOARD_IDX) MAX_BOARD_IDX, MIN(BOARD_IDX) MIN_BOARD_IDX
 		FROM QNA_BOARD
+		WHERE DELETE_YN = 'N'
 		]]>
 	</select>
 
@@ -16,9 +28,18 @@
 		FROM QNA_BOARD T1
 		JOIN USERS T2
 		WHERE T1.USER_IDX = T2.USER_IDX
+		AND T1.DELETE_YN = 'N'
 		${sql_syntax}
 		ORDER BY T1.BOARD_IDX DESC
 		LIMIT #{firstContentIndex}, #{contentPerPage}
+		]]>
+	</select>
+	
+	<select id="qna.checkDelete_yn" parameterType="String" resultType="hashmap">
+		<![CDATA[
+		SELECT DELETE_YN
+		FROM QNA_BOARD
+		WHERE BOARD_IDX = ${value}
 		]]>
 	</select>
 
@@ -28,7 +49,38 @@
 		FROM QNA_BOARD T1
 		JOIN USERS T2
 		WHERE T1.USER_IDX = T2.USER_IDX
+		AND T1.DELETE_YN = 'N'
 		AND T1.BOARD_IDX = ${value}
+		]]>
+	</select>
+	
+	<select id="qna.selectNextQnaBoardContent" parameterType="hashmap" resultType="hashmap">
+		<![CDATA[
+		SELECT *
+		FROM (SELECT T1.BOARD_IDX
+			FROM QNA_BOARD T1
+			JOIN USERS T2
+			WHERE T1.USER_IDX = T2.USER_IDX
+			AND T1.DELETE_YN = 'N'
+			${sql_syntax}
+			ORDER BY T1.BOARD_IDX ASC) A
+		WHERE A.BOARD_IDX > ${board_idx}
+		LIMIT 1;
+		]]>
+	</select>
+	
+	<select id="qna.selectPrevQnaBoardContent" parameterType="hashmap" resultType="hashmap">
+		<![CDATA[
+		SELECT *
+		FROM (SELECT T1.BOARD_IDX
+			FROM QNA_BOARD T1
+			JOIN USERS T2
+			WHERE T1.USER_IDX = T2.USER_IDX
+			AND T1.DELETE_YN = 'N'
+			${sql_syntax}
+			ORDER BY T1.BOARD_IDX DESC) A
+		WHERE A.BOARD_IDX < ${board_idx}
+		LIMIT 1;
 		]]>
 	</select>
 	

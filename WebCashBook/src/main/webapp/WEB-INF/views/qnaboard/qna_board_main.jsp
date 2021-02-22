@@ -14,15 +14,15 @@
 		<%@include file="../include/main_header.jsp" %>
 		<%@include file="../include/main_left_column.jsp" %>
 		<c:choose>
-			<c:when test="${page eq 'list'}">
+			<c:when test="${page eq 'list' || page eq 'my_post' || page eq 'content'}">
 				<%@include file="./qna_board_list.jsp" %>
-			</c:when>
+			</c:when><%-- 
 			<c:when test="${page eq 'my_post'}">
 				<%@include file="./qna_board_list.jsp" %>
 			</c:when>
 			<c:when test="${page eq 'content'}">
-				<%@include file="./qna_board_content.jsp" %>
-			</c:when>
+				<%@include file="./qna_board_list.jsp" %>
+			</c:when> --%>
 			<c:when test="${page eq 'write'}">
 				<%@include file="./qna_board_write.jsp" %>
 			</c:when>

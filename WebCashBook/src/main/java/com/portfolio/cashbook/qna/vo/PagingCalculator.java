@@ -13,6 +13,8 @@ public class PagingCalculator {
 	private int lastPageNo; // 페이지 블록의 마지막 페이지 번호
 	private boolean hasPreviousBlock; // 이전 블록 존재 여부
 	private boolean hasNextBlock; // 다음 블록 존재 여부
+	private int nextBoard_idx; // 다음 게시글의 board_idx
+	private int prevBoard_idx; // 이전 게시글의 board_idx
 	 
 	// 생성자
 	public PagingCalculator(PagingCriteriaVO criteriaVO) {
@@ -62,7 +64,7 @@ public class PagingCalculator {
 		hasPreviousBlock = criteriaVO.getCurrentPageNo() > pageSize;
 		
 		// 다음 블록 존재 여부
-		hasNextBlock = criteriaVO.getCurrentPageNo() < totalPageCount - (totalPageCount%pageSize - 1) ;
+		hasNextBlock = criteriaVO.getCurrentPageNo() < totalPageCount - (totalPageCount%pageSize - 1);
 		
 	}
 	
@@ -94,6 +96,23 @@ public class PagingCalculator {
 		return hasNextBlock;
 	}
 	
+	
+	public int getNextBoard_idx() {
+		return nextBoard_idx;
+	}
+
+	public void setNextBoard_idx(int nextBoard_idx) {
+		this.nextBoard_idx = nextBoard_idx;
+	}
+
+	public int getPrevBoard_idx() {
+		return prevBoard_idx;
+	}
+
+	public void setPrevBoard_idx(int prevBoard_idx) {
+		this.prevBoard_idx = prevBoard_idx;
+	}
+
 	public String toString() {
 		
 		return "\ntotalContentCount: "+totalContentCount

@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.logging.Log;
@@ -29,12 +30,15 @@ public class QnaBoardController {
 	
 	// Q&A 게시판 리스트 페이지
 	@RequestMapping(value="/qna/list.do")
-	public String qna_list(Model model, PagingCriteriaVO criteriaVO) throws Exception {
+	public String qna_list(Model model, QnaBoardVO qnaBoardVO, PagingCriteriaVO criteriaVO) throws Exception {
+		
+		qnaBoardVO = (QnaBoardVO) qnaService.getBoardData(qnaBoardVO, criteriaVO, null);
 		
 		// 게시판 리스트 불러오기
-		List<Map<String, Object>> boardList = qnaService.getQnaBoardList(criteriaVO, null);
+		List<Map<String, Object>> boardList = qnaBoardVO.getBoardList();
 		
-		PagingCalculator pagingCalc = qnaService.getPagingData(criteriaVO);
+		// 페이징 데이터 불러오기
+		PagingCalculator pagingCalc = qnaBoardVO.getPagingCal();
 		
 		// Attribute 저장
 		model.addAttribute("page","list");
@@ -46,13 +50,18 @@ public class QnaBoardController {
 	
 	// 내가 쓴 글 페이지
 	@RequestMapping(value="/qna/myPost.do")
-	public String qna_my_post(Model model, PagingCriteriaVO criteriaVO, HttpSession session) throws Exception{
+	public String qna_my_post(Model model, QnaBoardVO qnaBoardVO, PagingCriteriaVO criteriaVO, HttpSession session) throws Exception{
+		
+		// 내가 쓴 글 설정
+		criteriaVO.setMy_post(true);
+		
+		qnaBoardVO = (QnaBoardVO) qnaService.getBoardData(qnaBoardVO, criteriaVO, session);
 		
 		// 게시판 리스트 불러오기
-		List<Map<String, Object>> boardList 
-			= qnaService.getQnaBoardList(criteriaVO, session);
+		List<Map<String, Object>> boardList = qnaBoardVO.getBoardList();
 		
-		PagingCalculator pagingCalc = qnaService.getPagingData(criteriaVO);
+		// 페이징 데이터 불러오기
+		PagingCalculator pagingCalc = qnaBoardVO.getPagingCal();
 		
 		// Attribute 저장
 		model.addAttribute("page","my_post");
@@ -64,16 +73,24 @@ public class QnaBoardController {
 	
 	// Q&A 게시판 글 읽기 페이지
 	@RequestMapping(value="/qna/content.do")
-	public String qna_content(Model model, @RequestParam String board_idx) throws Exception {
+	public String qna_content(Model model, QnaBoardVO qnaBoardVO, PagingCriteriaVO criteriaVO) throws Exception {
 		
-		log.debug("board_idx="+board_idx);
+		qnaBoardVO = (QnaBoardVO) qnaService.getBoardData(qnaBoardVO, criteriaVO, null);
 		
 		// 게시판 내용 불러오기
-		Map<String, Object> boardContent = qnaService.getQnaBoardContent(board_idx);
+		Map<String, Object> boardContent = qnaBoardVO.getBoardContent();
+		
+		// 게시판 리스트 불러오기
+		List<Map<String, Object>> boardList = qnaBoardVO.getBoardList();
+		
+		// 페이징 데이터 불러오기
+		PagingCalculator pagingCalc = qnaBoardVO.getPagingCal();
 		
 		// Attribute 저장
 		model.addAttribute("page","content");
 		model.addAttribute("boardContent", boardContent);
+		model.addAttribute("boardList", boardList);
+		model.addAttribute("pagingData", pagingCalc);
 		
 		return "qnaboard/qna_board_main";
 	}
