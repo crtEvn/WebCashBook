@@ -16,13 +16,7 @@
 		<c:choose>
 			<c:when test="${page eq 'list' || page eq 'my_post' || page eq 'content'}">
 				<%@include file="./qna_board_list.jsp" %>
-			</c:when><%-- 
-			<c:when test="${page eq 'my_post'}">
-				<%@include file="./qna_board_list.jsp" %>
 			</c:when>
-			<c:when test="${page eq 'content'}">
-				<%@include file="./qna_board_list.jsp" %>
-			</c:when> --%>
 			<c:when test="${page eq 'write'}">
 				<%@include file="./qna_board_write.jsp" %>
 			</c:when>

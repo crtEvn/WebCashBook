@@ -19,16 +19,16 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.portfolio.cashbook.user.dto.SignDTO;
-import com.portfolio.cashbook.user.service.UserService;
+import com.portfolio.cashbook.user.service.SignUpService;
 import com.portfolio.cashbook.user.vo.UserVO;
 
 @Controller
 public class SignUpController {
 	
-	Log log = LogFactory.getLog(this.getClass());
+	@Resource(name="signUpService")
+	private SignUpService signUpService;
 	
-	@Resource(name="userService")
-	private UserService userService;
+	Log log = LogFactory.getLog(this.getClass());
 	
 	// 회원가입 페이지
 	@GetMapping(value="/user/signup.do")
@@ -42,41 +42,13 @@ public class SignUpController {
 	public String excute_signUp(Model model, @Valid SignDTO signDTO, Errors errors) throws Exception {
 		log.debug("excute_signUp");
 		
-		// 회원가입 Errors 처리
-		if(errors.hasErrors()) {
-			// 회원가입 실패 시
-			log.debug("validator 오류");
-			
-			// 유효성 통과 못한 필드와 메시지를 핸들링
-			Map<String, String> validatorResult = userService.validateHandling(errors);
-			for (String key : validatorResult.keySet()) {
-                model.addAttribute(key, validatorResult.get(key));
-                log.debug("key: "+key+", result: "+validatorResult.get(key));
-    		}
-			return "user/sign_up";
+		if(signUpService.startSignUp(model, signDTO, errors)) {
+			// 회원가입 성공
+			return "redirect:/user/signin.do";
 		}
 		
-		// user_id 중복 체크
-		int count = userService.checkUser_id(signDTO.getUser_id());
-		if(0 < count) { // user_id 중복인 경우 
-			log.debug("ID 중복 오류 user_id: "+signDTO.getUser_id());
-			model.addAttribute("valid_user_id", "중복된 아이디 입니다. 다시 입력해 주세요.");
-			return "user/sign_up";
-		}
-		
-		// user_pw 암호화 
-		String hashedPW = BCrypt.hashpw(signDTO.getUser_pw(),BCrypt.gensalt());
-		signDTO.setUser_pw(hashedPW);
-		
-		// [INSERT] Sign Up
-		userService.insertUser(signDTO);
-		log.debug("SignUp 성공");
-		
-		// Insert Category
-		UserVO userVO =  userService.selectUser(signDTO);
-		userService.insertFirstCategory(userVO.getUser_idx());
-		
-		return "redirect:/user/signin.do";
+		// 회원가입 실패
+		return "user/sign_up";
 	}
 
 }

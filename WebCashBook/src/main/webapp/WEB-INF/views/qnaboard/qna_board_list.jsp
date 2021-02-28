@@ -70,12 +70,14 @@
 										<i class="fas fa-share"></i> 이전글
 									</button>
 								</div>
-								<button type="button" class="btn btn-default">
-									<i class="fas fa-pencil-alt"></i> 수정하기
-								</button>
-								<button type="button" class="btn btn-default">
-									<i class="far fa-trash-alt"></i> 삭제하기
-								</button>
+								<c:if test="${userSession.getUser_idx() eq boardContent.USER_IDX}">
+									<button type="button" class="btn btn-default">
+										<i class="fas fa-pencil-alt"></i> 수정하기
+									</button>
+									<button type="button" class="btn btn-default" onclick="fn_openDeleteModal()">
+										<i class="far fa-trash-alt"></i> 삭제하기
+									</button>
+								</c:if>
 							</div>
 							<!-- /.card-footer -->
 
@@ -224,6 +226,47 @@
 </div>
 <!-- ./content wrapper -->
 
+<!-- Modal -->
+<div class="modal fade" id="modal-qna-delete">
+	<!-- Modal-dialog -->
+	<div class="modal-dialog">
+		<!-- Modal-content -->
+		<div class="modal-content">
+			<div class="modal-header">
+				<h4 class="modal-title">게시글 삭제</h4>
+				<button type="button" class="close" onclick="fn_closeModal()">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body text-center">
+				<!-- Check Password Form -->
+				<div class="row">
+					<div class="col-12">
+						<p>글을 삭제하시겠습니까?</p>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-7"  style="margin: 0 auto">
+						<form name="" id="" method="post">
+							<input name="password" type="password" class="form-control" placeholder="비밀번호를 입력해주세요.">
+						</form>
+					</div>
+				</div>
+				<!-- /.check password form -->
+			</div>
+			<div class="modal-footer justify-content-between">
+				<button type="button" class="btn btn-default"
+					onclick="fn_closeModal()">닫기</button>
+				<button type="button" class="btn btn-primary"
+					onclick="fn_updateLedger()">삭제하기</button>
+			</div>
+		</div>
+		<!-- /.modal-content -->
+	</div>
+	<!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+
 <!-- Page Script -->
 <script type="text/javascript">
 	
@@ -341,8 +384,22 @@
 	}
 	
 	// 게시글 삭제
-	function fn_deleteContent() {
-		
+	//[Modal]: 가계부 내역 입력 Modal 열기
+	function fn_openDeleteModal(){
+		// Modal 열기
+		$("#modal-qna-delete").modal("show");
+	}
+	
+	//[Modal]:게시글 삭제 
+	function fn_insertLedger() {
+		var form = document.getElementById("ledgerInputForm");
+		form.action = "<c:url value='/ledger/insertLedger.do'/>";
+		form.submit();
+	}
+
+	//[Modal]: Modal창 닫기
+	function fn_closeModal(){
+		$("#modal-qna-delete").modal("hide");
 	}
 
 </script>

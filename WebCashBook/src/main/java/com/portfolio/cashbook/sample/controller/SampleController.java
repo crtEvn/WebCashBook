@@ -23,8 +23,11 @@ import org.springframework.web.servlet.ModelAndView;
 import com.portfolio.cashbook.ledger.dto.LedgerDTO;
 import com.portfolio.cashbook.ledger.service.LedgerService;
 import com.portfolio.cashbook.sample.service.SampleService;
+import com.portfolio.cashbook.user.dao.UserDAO;
 import com.portfolio.cashbook.user.dto.SignDTO;
-import com.portfolio.cashbook.user.service.UserService;
+import com.portfolio.cashbook.user.service.CheckUserService;
+import com.portfolio.cashbook.user.service.SignInService;
+import com.portfolio.cashbook.user.service.SignUpService;
 import com.portfolio.cashbook.user.vo.UserVO;
 
 @Controller
@@ -38,8 +41,11 @@ public class SampleController {
 	@Resource(name="sampleService")
     private SampleService sampleService;
 	
-	@Resource(name="userService")
-    private UserService userService;
+	@Resource(name="userDAO")
+	private UserDAO userDAO;
+	
+	@Resource(name="checkUserService")
+    private CheckUserService checkUserService;
 	
 	@Resource(name="ledgerService")
     private LedgerService ledgerService;
@@ -110,7 +116,7 @@ public class SampleController {
 		String hashedPW = BCrypt.hashpw(signDTO.getUser_pw(),BCrypt.gensalt());
 		signDTO.setUser_pw(hashedPW);
 		
-		userService.insertUser(signDTO);
+		userDAO.insertUser(signDTO);
 		log.debug("admin 회원가입");
 		
 		return "sample/test";
@@ -122,7 +128,7 @@ public class SampleController {
 		
 		signDTO.setUser_id("admin");
 		
-		UserVO userVO = userService.selectUser(signDTO);
+		UserVO userVO = checkUserService.selectUser(signDTO);
 		
 		session.setAttribute("userSession", userVO);
 		

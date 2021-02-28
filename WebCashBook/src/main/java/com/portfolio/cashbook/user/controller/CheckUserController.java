@@ -13,15 +13,15 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.portfolio.cashbook.user.service.UserService;
+import com.portfolio.cashbook.user.service.CheckUserService;
 
 @Controller
 public class CheckUserController {
 
 	Log log = LogFactory.getLog(this.getClass());
 	
-	@Resource(name="userService")
-	private UserService userService;
+	@Resource(name="checkUserService")
+	private CheckUserService checkUserService;
 	
 	private static Pattern pattern = null;
 	private static Matcher matcher = null;
@@ -41,10 +41,11 @@ public class CheckUserController {
 		if(matcher.find()) { // id 정책에 부합
 			
 			// user_id 중복 체트
-			int queryResult = userService.checkUser_id(user_id);
-			if(queryResult != 0) { // user_id 중복
+			if(checkUserService.checkUser_ID(user_id)) {
+				// user_id 중복
 				returnData = 1;
-			} else { // user_id 사용 가능
+			}else {
+				// user_id 사용 가능
 				returnData = 2;
 			}
 			
