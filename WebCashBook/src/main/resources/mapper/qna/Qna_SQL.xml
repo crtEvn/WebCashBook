@@ -92,5 +92,13 @@
 			(#{user_idx},#{subject},#{content})
 		]]>
 	</insert>
+	
+	<update id="qna.deleteQnaBoardContent" parameterType="String">
+		<![CDATA[
+		UPDATE QNA_BOARD
+		SET DELETE_YN = 'Y'
+		WHERE BOARD_IDX = ${value}
+		]]>
+	</update>
 
 </mapper>

@@ -12,7 +12,9 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.portfolio.cashbook.qna.service.QnaService;
 import com.portfolio.cashbook.qna.vo.PagingCalculator;
@@ -122,6 +124,33 @@ public class QnaBoardController {
 		//model.addAttribute("boardContent", boardContent);
 		
 		return "qnaboard/qna_board_main";
+	}
+	
+	// [Ajax] 비밀번호 확인
+	@RequestMapping(value="/qna/checkUserPassword.do", method = RequestMethod.POST)
+	@ResponseBody
+	public boolean checkUser_PW(@RequestParam String user_pw, HttpSession session) throws Exception {
+		log.debug("[Ajax] 비밀번호 확인 0");
+		if(qnaService.checkUser_pw(user_pw, session)) {log.debug("[Ajax] 비밀번호 확인 1");
+			// 비밀번호 일치
+			return true;
+		};log.debug("[Ajax] 비밀번호 확인 2");
+		// 비밀번호 불일치
+		return false;
+	}
+	
+	// [UPDATE] 게시글 삭제
+	@RequestMapping(value="/qna/deleteQnaContent.do")
+	public String delete_qna_content(Model model, @RequestParam String board_idx) throws Exception {
+		
+		qnaService.deleteQnaContent(board_idx);
+		
+		model.addAttribute("message", "게시글이 삭제되었습니다.");
+		model.addAttribute("url", "/qna/list.do");
+		
+		//<c:url value='/qna/list.do'/>
+		// <%=reqeust.getContextPath() %>
+		return "common/alertPage";
 	}
 	
 }

@@ -15,6 +15,7 @@ import com.portfolio.cashbook.qna.dao.QnaDAO;
 import com.portfolio.cashbook.qna.vo.PagingCriteriaVO;
 import com.portfolio.cashbook.qna.vo.PagingCalculator;
 import com.portfolio.cashbook.qna.vo.QnaBoardVO;
+import com.portfolio.cashbook.user.service.CheckUserService;
 import com.portfolio.cashbook.user.vo.UserVO;
 
 @Service("qnaService")
@@ -24,6 +25,9 @@ public class QnaServiceImpl implements QnaService {
 	
 	@Resource(name="qnaDAO")
 	private QnaDAO qnaDAO;
+	
+	@Resource(name="checkUserService")
+	private CheckUserService checkUserService;
 	
 	// 게시판 정보 불러오기
 	@Override
@@ -144,7 +148,7 @@ public class QnaServiceImpl implements QnaService {
 		return cal;
 	}
 	
-	// 게시글 삭제 여부 확인
+	// 삭제된 게시글인지 확인
 	public String checkBoard_idx(String board_idx, PagingCriteriaVO criteriaVO) throws Exception {
 		
 		// 게시글 삭제 여부 확인
@@ -217,10 +221,30 @@ public class QnaServiceImpl implements QnaService {
 		}
 		
 	}
-
+	
+	// [INSERT]: 게시글 입력
 	@Override
 	public void insertQnaContent(QnaBoardVO vo) throws Exception {
 		qnaDAO.insertQnaContent(vo);
+	}
+	
+	// [UPDATE]: 게시글 삭제 처리
+	public void deleteQnaContent(String board_idx) throws Exception {
+		log.debug("게시글 삭제 처리, board_idx: "+board_idx);
+		qnaDAO.deleteQnaContent(board_idx);
+	}
+	
+	// 게시글 삭제 시 비밀번호 확인
+	public boolean checkUser_pw(String user_pw, HttpSession session) throws Exception {
+		
+		UserVO userSession = (UserVO) session.getAttribute("userSession");
+		
+		if(checkUserService.checkUser_PW(user_pw, userSession.getUser_pw())) {
+			// 비밀번호 일치
+			return true;
+		}
+		// 비밀번호 불일치
+		return false;
 	}
 
 }

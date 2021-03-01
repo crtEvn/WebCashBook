@@ -247,8 +247,9 @@
 				</div>
 				<div class="row">
 					<div class="col-7"  style="margin: 0 auto">
-						<form name="" id="" method="post">
-							<input name="password" type="password" class="form-control" placeholder="비밀번호를 입력해주세요.">
+						<form name="deleteContentForm" id="deleteContentForm" action="<c:url value='/qna/deleteQnaContent.do'/>" method="post">
+							<input name="user_pw" id="user_pw" type="password" class="form-control" placeholder="비밀번호를 입력해주세요.">
+							<input name="board_idx" id="board_idx" type="hidden" value="${boardContent.BOARD_IDX }">
 						</form>
 					</div>
 				</div>
@@ -258,7 +259,7 @@
 				<button type="button" class="btn btn-default"
 					onclick="fn_closeModal()">닫기</button>
 				<button type="button" class="btn btn-primary"
-					onclick="fn_updateLedger()">삭제하기</button>
+					onclick="fn_deleteContent()">삭제하기</button>
 			</div>
 		</div>
 		<!-- /.modal-content -->
@@ -391,10 +392,27 @@
 	}
 	
 	//[Modal]:게시글 삭제 
-	function fn_insertLedger() {
-		var form = document.getElementById("ledgerInputForm");
-		form.action = "<c:url value='/ledger/insertLedger.do'/>";
-		form.submit();
+	function fn_deleteContent() {
+		
+		var deleteForm = $('#deleteContentForm');
+		var user_pw = {user_pw : deleteForm.find('#user_pw').val()};
+		
+		$.ajax({
+			url: '<c:url value="/qna/checkUserPassword.do"/>',
+			type: 'post',
+			data: user_pw,
+			success: function(data){
+				if(data == true){ // 비밀번호 일치
+					deleteForm.submit();
+				} else if(data == false){ // 비밀번호 불일치
+					alert("비밀번호가 일치하지 않습니다.");
+				}
+			},
+			error: function(){
+				alert("ajax_error");
+			}
+		})
+		
 	}
 
 	//[Modal]: Modal창 닫기

@@ -49,4 +49,8 @@ public class QnaDAO extends AbstractDAO{
 	public void insertQnaContent(QnaBoardVO vo) {
 		insert("qna.insertQnaBoardContent", vo);
 	}
+	
+	public void deleteQnaContent(String board_idx) {
+		update("qna.deleteQnaBoardContent", board_idx);
+	}
 }

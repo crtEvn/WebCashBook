@@ -24,5 +24,9 @@ public interface QnaService {
 	public void setNextPrevBoard_idx(String board_idx, PagingCriteriaVO criteriaVO) throws Exception;
 	
 	void insertQnaContent(QnaBoardVO vo) throws Exception;
+	
+	public void deleteQnaContent(String board_idx) throws Exception;
+	
+	public boolean checkUser_pw(String user_pw, HttpSession session) throws Exception;
 
 }
